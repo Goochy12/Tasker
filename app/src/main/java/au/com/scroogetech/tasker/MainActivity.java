@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private TaskItemDatabase db;
     private TaskViewModel taskViewModel;
 
-    private FragmentManager fragmentManager = getSupportFragmentManager();
-//    private FragmentTransaction fragmentTransaction;
-    private Fragment addTaskFragment = new AddTaskFragment();
+//    private FragmentManager fragmentManager = getSupportFragmentManager();
+////    private FragmentTransaction fragmentTransaction;
+//    private Fragment addTaskFragment = new AddTaskFragment();
 
 
 
@@ -124,10 +124,10 @@ public class MainActivity extends AppCompatActivity {
     //my functions
 
     public void fabOnClick(){
-        //taskViewModel.insert(new TaskItem("New Task","Desc",0));
-        FragmentTransaction fragmentTransaction;
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragmentLayout,addTaskFragment).commit();
+        taskViewModel.insert(new TaskItem("New Task","Desc",0));
+//        FragmentTransaction fragmentTransaction;
+//        fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.add(R.id.fragmentLayout,addTaskFragment).commit();
 
     }
 
