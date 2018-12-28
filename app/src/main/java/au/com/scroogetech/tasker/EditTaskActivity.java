@@ -89,13 +89,6 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
         applyButton.setText("Apply");
         editTextView.setText("Edit Task");
 
-        applyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,8 +126,6 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
 
             }
         });
-
-        addTaskButton.setEnabled(false);
 
         taskNameText.addTextChangedListener(new TextWatcher() {
             @Override
