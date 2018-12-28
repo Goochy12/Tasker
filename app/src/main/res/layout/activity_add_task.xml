@@ -6,134 +6,115 @@
     android:layout_height="match_parent"
     tools:context=".AddTaskActivity">
 
-        <TextView
-            android:id="@+id/AddTaskHeader"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Add Task"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/H_HeadGuideline"
-            app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/AddTaskHeader"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Add Task"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/H_HeadGuideline"
+        app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/enterTaskName"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:ems="10"
-            app:layout_constraintBottom_toTopOf="@+id/H_TaskNameFoot"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/H_TaskNameHead" />
+    <EditText
+        android:id="@+id/enterTaskName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/H_TaskNameFoot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/H_TaskNameHead" />
 
-        <EditText
-            android:id="@+id/enterDate"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:ems="10"
-            android:inputType="date"
-            app:layout_constraintBottom_toTopOf="@+id/H_DateTimeFoot"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/V_HeadGuideline"
-            app:layout_constraintTop_toTopOf="@+id/H_DateTimeHead" />
+    <android.support.constraint.Guideline
+        android:id="@+id/H_HeadGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
 
-        <EditText
-            android:id="@+id/enterTime"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:ems="10"
-            android:inputType="time"
-            app:layout_constraintBottom_toTopOf="@+id/H_DateTimeFoot"
-            app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/H_DateTimeHead" />
+    <android.support.constraint.Guideline
+        android:id="@+id/V_HeadGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".35" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/H_HeadGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".1" />
+    <TextView
+        android:id="@+id/TaskNameHeader"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Task Name:"
+        app:layout_constraintBottom_toTopOf="@+id/H_TaskNameHead"
+        app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/H_HeadGuideline" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/V_HeadGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".35" />
+    <TextView
+        android:id="@+id/DateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Date"
+        app:layout_constraintBottom_toTopOf="@+id/H_DateTimeHead"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/V_HeadGuideline"
+        app:layout_constraintTop_toTopOf="@+id/H_DescriptionFoot" />
 
-        <TextView
-            android:id="@+id/TaskNameHeader"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Task Name:"
-            app:layout_constraintBottom_toTopOf="@+id/H_TaskNameHead"
-            app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/H_HeadGuideline" />
+    <TextView
+        android:id="@+id/TimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Time"
+        app:layout_constraintBottom_toTopOf="@+id/H_DateTimeHead"
+        app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/H_DescriptionFoot" />
 
-        <TextView
-            android:id="@+id/DateTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Date"
-            app:layout_constraintBottom_toTopOf="@+id/H_DateTimeHead"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/V_HeadGuideline"
-            app:layout_constraintTop_toTopOf="@+id/H_DescriptionFoot" />
+    <EditText
+        android:id="@+id/enterDescription"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+        android:scrollHorizontally="false"
+        app:layout_constraintBottom_toTopOf="@+id/H_DescriptionFoot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/H_DescriptionHead" />
 
-        <TextView
-            android:id="@+id/TimeTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Time"
-            app:layout_constraintBottom_toTopOf="@+id/H_DateTimeHead"
-            app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/H_DescriptionFoot" />
-
-        <EditText
-            android:id="@+id/enterDescription"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:ems="10"
-            android:inputType="textShortMessage"
-            app:layout_constraintBottom_toTopOf="@+id/H_DescriptionFoot"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/H_DescriptionHead" />
-
-        <TextView
-            android:id="@+id/DescriptionTextView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Description"
-            app:layout_constraintBottom_toTopOf="@+id/H_DescriptionHead"
-            app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/H_TaskNameFoot" />
+    <TextView
+        android:id="@+id/DescriptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Description"
+        app:layout_constraintBottom_toTopOf="@+id/H_DescriptionHead"
+        app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/H_TaskNameFoot" />
 
     <CheckBox
         android:id="@+id/reminderCheckBox"
@@ -145,65 +126,106 @@
         android:layout_marginBottom="8dp"
         android:clickable="false"
         android:text="Reminder"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/H_DateTimeFoot" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/H_TaskNameHead"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".15" />
+    <android.support.constraint.Guideline
+        android:id="@+id/H_TaskNameHead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/H_TaskNameFoot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".25" />
+    <android.support.constraint.Guideline
+        android:id="@+id/H_TaskNameFoot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".25" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/H_DescriptionHead"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".3" />
+    <android.support.constraint.Guideline
+        android:id="@+id/H_DescriptionHead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/H_DescriptionFoot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".4" />
+    <android.support.constraint.Guideline
+        android:id="@+id/H_DescriptionFoot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/H_DateTimeHead"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".45" />
+    <android.support.constraint.Guideline
+        android:id="@+id/H_DateTimeHead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/H_DateTimeFoot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".55" />
+    <android.support.constraint.Guideline
+        android:id="@+id/H_DateTimeFoot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
 
-        <Button
-            android:id="@+id/addTaskButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/V_HeadGuideline"
-            app:layout_constraintTop_toTopOf="@+id/H_DateTimeFoot" />
+    <Button
+        android:id="@+id/addTaskButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/timeButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Time"
+        app:layout_constraintBottom_toTopOf="@+id/H_DateTimeFoot"
+        app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/H_DateTimeHead" />
+
+    <Button
+        android:id="@+id/dateButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Date"
+        app:layout_constraintBottom_toTopOf="@+id/H_DateTimeFoot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/V_HeadGuideline"
+        app:layout_constraintTop_toTopOf="@+id/H_DateTimeHead"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".8" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".7" />
 
 </android.support.constraint.ConstraintLayout>

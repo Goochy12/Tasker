@@ -2,6 +2,7 @@ package au.com.scroogetech.tasker;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -126,17 +127,17 @@ public class MainActivity extends AppCompatActivity {
     //my functions
 
     public void fabOnClick(){
-        taskViewModel.insert(new TaskItem("New Task","Desc",0));
+//        taskViewModel.insert(new TaskItem("New Task","Desc",0));
 
-        //new intent
+        //launch add task activity
+        newTask();
 
-//        FragmentTransaction fragmentTransaction;
-//        fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.add(R.id.fragmentLayout,addTaskFragment).commit();
 
     }
 
-    public void displayTasks(){
+    public void newTask(){
+        Intent launchAddTask = new Intent(this, AddTaskActivity.class);
 
+        startActivity(launchAddTask);
     }
 }

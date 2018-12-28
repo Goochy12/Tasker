@@ -3,7 +3,6 @@ package au.com.scroogetech.tasker.data;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.util.List;
 
@@ -60,7 +59,9 @@ public class TaskRepository {
 
         @Override
         protected Void doInBackground(final TaskItem... params) {
-            TaskItem newTaskItem = new TaskItem(params[0].getTaskName(),params[0].getTaskDesc(),params[0].getTaskChecked());
+            TaskItem newTaskItem = new TaskItem(params[0].getTaskName(),params[0].getTaskDesc(),
+                    params[0].getDayDue(), params[0].getMonthDue(), params[0].getYearDue(),
+                    params[0].getMinuteDue(), params[0].getHourDue(), params[0].getTaskChecked(), params[0].getReminder(), params[0].getTimeDateString());
             mAsyncTaskDao.createNewTaskItem(newTaskItem);
 
             return null;

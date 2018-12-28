@@ -3,6 +3,7 @@ package au.com.scroogetech.tasker;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -50,11 +51,24 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position){
 
         holder.taskText.setText(taskItems.get(position).getTaskName());
+        holder.timeText.setText(taskItems.get(position).getTimeDateString());
+
         if (taskItems.get(position).getTaskChecked() == 0){
             holder.taskCheckbox.setChecked(false);
+            holder.taskText.setPaintFlags(holder.taskText.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+            holder.timeText.setText(taskItems.get(position).getTimeDateString());
         }else {
             holder.taskCheckbox.setChecked(true);
+            holder.taskText.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.timeText.setText("Complete!");
         }
+
+
+
+//        if (taskItems.get(position).getReminder() == 0){
+//            holder.reminderText.setText("No Reminder");
+//        }else {
+//        }
 
         holder.taskCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,10 +78,12 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
                     taskItems.get(position).setTaskChecked(1);
                 } else {
                     taskItems.get(position).setTaskChecked(0);
+
                 }
                 taskViewModel.setTaskChecked(taskItems.get(position));
             }
         });
+
     }
 
     @Override
@@ -89,6 +105,7 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
     public static class HomeViewHolder extends RecyclerView.ViewHolder{
         public View itemView;
         public TextView taskText;
+        public TextView timeText;
         public CheckBox taskCheckbox;
 
 
@@ -96,6 +113,7 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
             super(itemView);
             this.itemView = itemView;
             taskText = (TextView) itemView.findViewById(R.id.taskNameTextView);
+            timeText = (TextView) itemView.findViewById(R.id.timeTextView);
             taskCheckbox = (CheckBox) itemView.findViewById(R.id.taskCheckBox);
         }
     }
