@@ -47,4 +47,8 @@ public class TaskViewModel extends AndroidViewModel {
     public void setTaskChecked(TaskItem taskItem){
         taskRepository.setTaskChecked(taskItem);
     }
+
+    public TaskItem getTaskItem(int itemID) { return taskRepository.getTaskItem(itemID); }
+
+    public void updateTaskItem(TaskItem taskItem, int id) { taskRepository.updateTaskItem(taskItem, id); }
 }

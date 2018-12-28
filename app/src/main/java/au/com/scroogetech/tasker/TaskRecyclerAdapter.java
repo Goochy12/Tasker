@@ -3,7 +3,9 @@ package au.com.scroogetech.tasker;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +23,8 @@ import au.com.scroogetech.tasker.data.TaskItem;
 import au.com.scroogetech.tasker.data.TaskRepository;
 
 public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapter.HomeViewHolder> {
+
+    public static final String TASK_ID = "TASK_ID";
 
     private List<TaskItem> taskItems = Collections.emptyList();
     //private final LayoutInflater layoutInflater;
@@ -84,6 +88,17 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
             }
         });
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editActivityLauncher = new Intent(context,EditTaskActivity.class);
+
+                String id = String.valueOf(taskItems.get(position).getItemID());
+                editActivityLauncher.putExtra(TASK_ID,id);
+
+                context.startActivity(editActivityLauncher);
+            }
+        });
     }
 
     @Override

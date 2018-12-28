@@ -17,7 +17,8 @@ public abstract class TaskItemDatabase extends RoomDatabase {
                 if (INSTANCE == null){
                     //create database here
 
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), TaskItemDatabase.class,"taskdb").build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), TaskItemDatabase.class,"taskdb").allowMainThreadQueries()
+                            .build();
                 }
             }
         }

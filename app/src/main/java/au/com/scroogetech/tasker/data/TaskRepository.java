@@ -47,6 +47,14 @@ public class TaskRepository {
         new setTaskCheckedAsyncTask(mTaskDao).execute(taskItem);
     }
 
+    public TaskItem getTaskItem(int itemID){
+        return mTaskDao.getTaskItem(itemID);
+    }
+
+    public void updateTaskItem(TaskItem taskItem, int id){
+        new updateTaskItemAsync(mTaskDao, id).execute(taskItem);
+    }
+
     //async tasks
 
     private static class insertAsyncTask extends AsyncTask<TaskItem, Void, Void> {
@@ -128,6 +136,26 @@ public class TaskRepository {
         protected Void doInBackground(final TaskItem... params) {
 
             mAsyncTaskDao.setTaskChecked(params[0].getTaskChecked(),params[0].getItemID());
+
+            return null;
+        }
+    }
+
+    private static class updateTaskItemAsync extends AsyncTask<TaskItem, Void, Void> {
+
+        private TaskItemDao mAsyncTaskDao;
+        private int id;
+
+        updateTaskItemAsync(TaskItemDao dao, int id) {
+            mAsyncTaskDao = dao;
+            this.id = id;
+        }
+
+        @Override
+        protected Void doInBackground(final TaskItem... params) {
+            mAsyncTaskDao.updateTaskItem(id,params[0].getTaskName(),params[0].getTaskDesc(), params[0].getDayDue(), params[0].getMonthDue(),
+                    params[0].getYearDue(), params[0].getMinuteDue(), params[0].getHourDue(), params[0].getTaskChecked(),
+                    params[0].getReminder(), params[0].getTimeDateString());
 
             return null;
         }

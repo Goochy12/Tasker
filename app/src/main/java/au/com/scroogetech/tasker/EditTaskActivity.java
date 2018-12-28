@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -18,17 +19,22 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import au.com.scroogetech.tasker.data.TaskItem;
 
-public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+import static au.com.scroogetech.tasker.TaskRecyclerAdapter.TASK_ID;
+
+public class EditTaskActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener{
 
     private EditText taskNameText;
     private EditText taskDescriptionText;
     private Button timeButton;
     private Button dateButton;
     private CheckBox reminder;
+
+    private int taskID;
 
     private String taskName;
     private String taskDescription;
@@ -37,14 +43,22 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private int taskTimeDay;
     private int taskTimeMonth;
     private int taskTimeYear;
+    private int taskChecked;
 
-    private TaskViewModel taskViewModel;
+    TaskViewModel taskViewModel;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+
+        Intent fromHome = getIntent();
+        String id = fromHome.getStringExtra(TASK_ID);
+        taskID = Integer.parseInt(id);
+
+        TaskItem taskItem = taskViewModel.getTaskItem(taskID);
 
         taskNameText = (EditText) findViewById(R.id.enterTaskName);
         taskDescriptionText = (EditText) findViewById(R.id.enterDescription);
@@ -53,13 +67,34 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         dateButton = (Button) findViewById(R.id.dateButton);
         reminder = (CheckBox) findViewById(R.id.reminderCheckBox);
 
-        timeButton.setText(getTime());
-        dateButton.setText(getDate());
+        taskNameText.setText(taskItem.getTaskName());
+        taskDescriptionText.setText(taskItem.getTaskDesc());
+        taskTimeDay = taskItem.getDayDue();
+        taskTimeMonth = taskItem.getMonthDue();
+        taskTimeYear = taskItem.getYearDue();
+        taskTimeHour = taskItem.getHourDue();
+        taskTimeMinute = taskItem.getMinuteDue();
+        taskChecked = taskItem.getTaskChecked();
 
-        taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        String time = "" + taskTimeHour + ":" + taskTimeMinute;
+        String date = "" + taskTimeDay + "/" + taskTimeMonth + "/" + taskTimeYear;
 
-        //set current values
-        setTimeDate();
+        timeButton.setText(time);
+        dateButton.setText(date);
+
+        TextView editTextView = (TextView) findViewById(R.id.AddTaskHeader);
+        Button applyButton = (Button) findViewById(R.id.addTaskButton);
+
+        //set text
+        applyButton.setText("Apply");
+        editTextView.setText("Edit Task");
+
+        applyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,8 +127,8 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 String timeDate = date + " @ " + time;
 
                 TaskItem taskItem = new TaskItem(taskName,taskDescription,
-                        taskTimeDay, taskTimeMonth, taskTimeYear, taskTimeMinute, taskTimeHour, 0, r, timeDate);
-                taskViewModel.insert(taskItem);
+                        taskTimeDay, taskTimeMonth, taskTimeYear, taskTimeMinute, taskTimeHour, taskChecked, r, timeDate);
+                taskViewModel.updateTaskItem(taskItem,taskID);
                 finish();
 
             }
@@ -122,6 +157,8 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             }
         });
     }
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public String getTime(){
@@ -168,13 +205,13 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     }
 
     public void showTimePickerDialog() {
-        DialogFragment timePickerFragment = new TimePickerFragment();
+        DialogFragment timePickerFragment = new AddTaskActivity.TimePickerFragment();
         timePickerFragment.show(getSupportFragmentManager(), "timePicker");
 
     }
 
     public void showDatePickerDialog() {
-        DialogFragment datePickerFragment = new DatePickerFragment();
+        DialogFragment datePickerFragment = new AddTaskActivity.DatePickerFragment();
         datePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
