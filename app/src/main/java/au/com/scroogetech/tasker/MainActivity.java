@@ -127,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void fabOnClick(){
         taskViewModel.insert(new TaskItem("New Task","Desc",0));
+
+        //new intent
+
 //        FragmentTransaction fragmentTransaction;
 //        fragmentTransaction = fragmentManager.beginTransaction();
 //        fragmentTransaction.add(R.id.fragmentLayout,addTaskFragment).commit();
