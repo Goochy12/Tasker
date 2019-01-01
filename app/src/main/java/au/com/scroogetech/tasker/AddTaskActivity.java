@@ -13,12 +13,16 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TimePicker;
+
+import java.util.ArrayList;
 
 import au.com.scroogetech.tasker.data.TaskItem;
 
@@ -51,7 +55,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
 
         timeButton = (Button) findViewById(R.id.timeButton);
         dateButton = (Button) findViewById(R.id.dateButton);
-        reminder = (CheckBox) findViewById(R.id.reminderCheckBox);
+        reminder = (CheckBox) findViewById(R.id.reminderCheckbox);
 
         timeButton.setText(getTime());
         dateButton.setText(getDate());
@@ -82,17 +86,29 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             public void onClick(View v) {
                 taskName = taskNameText.getText().toString();
                 taskDescription = taskDescriptionText.getText().toString();
+
                 int r = 0;
-                if(reminder.isChecked()){
+                if (reminder.isChecked()){
                     r = 1;
                 }
+
+
+//                ArrayList<Integer> eventTime = new ArrayList<>();
+//                eventTime.add(taskTimeYear);
+//                eventTime.add(taskTimeMonth);
+//                eventTime.add(taskTimeDay);
+//                eventTime.add(taskTimeHour);
+//                eventTime.add(taskTimeMinute);
+
+//                ArrayList<Integer> timeList = getReminderValue(eventTime);
 
                 String date = "" + taskTimeDay + "/" + taskTimeMonth + "/" + taskTimeYear;
                 String time = "" + taskTimeHour + ":" + taskTimeMinute;
                 String timeDate = date + " @ " + time;
 
                 TaskItem taskItem = new TaskItem(taskName,taskDescription,
-                        taskTimeDay, taskTimeMonth, taskTimeYear, taskTimeMinute, taskTimeHour, 0, r, timeDate);
+                        taskTimeDay, taskTimeMonth, taskTimeYear, taskTimeMinute, taskTimeHour, 0,
+                        r, timeDate);
                 taskViewModel.insert(taskItem);
                 finish();
 
@@ -122,6 +138,27 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             }
         });
     }
+
+//    private ArrayList<Integer> getReminderValue(ArrayList<Integer> eventTime) {
+//        ArrayList<Integer> timeList = new ArrayList<>();
+//        int year = eventTime.get(0);
+//        int month = eventTime.get(1);
+//        int day = eventTime.get(2);
+//        int hour = eventTime.get(3);
+//        int minute = eventTime.get(4);
+//
+//        if (reminderSpinner.getSelectedItemPosition() == 0){
+//            timeList.clear();
+//        }else if(reminderSpinner.getSelectedItemPosition() == 1){
+//            timeList = eventTime;
+//        }else if (reminderSpinner.getSelectedItemPosition() == 2){
+//            minute = timeList.get(4);
+//            if (minute - 5) =
+//            timeList.get(4) = timeList.get(4) - 5;
+//        }
+//
+//        return timeList;
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public String getTime(){

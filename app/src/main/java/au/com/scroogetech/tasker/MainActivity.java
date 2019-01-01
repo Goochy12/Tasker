@@ -88,17 +88,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-        //db = TaskViewModel
-
-//        if (true){
-//            noTasksMessage.setVisibility(View.INVISIBLE);
-//            //displayTasks();
-//        }
     }
 
     @Override

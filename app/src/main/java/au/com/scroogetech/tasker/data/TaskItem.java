@@ -2,6 +2,9 @@ package au.com.scroogetech.tasker.data;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+
+import java.util.ArrayList;
+
 import io.reactivex.annotations.NonNull;
 
 @Entity(tableName = "tasklist_table")

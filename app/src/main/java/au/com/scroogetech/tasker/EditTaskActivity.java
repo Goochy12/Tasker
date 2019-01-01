@@ -44,6 +44,7 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
     private int taskTimeMonth;
     private int taskTimeYear;
     private int taskChecked;
+    private int taskReminder;
 
     TaskViewModel taskViewModel;
 
@@ -65,7 +66,7 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
 
         timeButton = (Button) findViewById(R.id.timeButton);
         dateButton = (Button) findViewById(R.id.dateButton);
-        reminder = (CheckBox) findViewById(R.id.reminderCheckBox);
+        reminder = (CheckBox) findViewById(R.id.reminderCheckbox);
 
         taskNameText.setText(taskItem.getTaskName());
         taskDescriptionText.setText(taskItem.getTaskDesc());
@@ -75,6 +76,10 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
         taskTimeHour = taskItem.getHourDue();
         taskTimeMinute = taskItem.getMinuteDue();
         taskChecked = taskItem.getTaskChecked();
+        taskReminder = taskItem.getReminder();
+        if (taskReminder != 0){
+            reminder.setChecked(true);
+        }
 
         String time = "" + taskTimeHour + ":" + taskTimeMinute;
         String date = "" + taskTimeDay + "/" + taskTimeMonth + "/" + taskTimeYear;
@@ -145,6 +150,17 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
                     addTaskButton.setEnabled(true);
                 }
 
+            }
+        });
+
+        reminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (reminder.isChecked()){
+
+                }else{
+
+                }
             }
         });
     }

@@ -14,7 +14,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Add Task"
+        android:text="@string/add_task"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/H_HeadGuideline"
@@ -57,7 +57,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Task Name:"
+        android:text="@string/task_name"
         app:layout_constraintBottom_toTopOf="@+id/H_TaskNameHead"
         app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Date"
+        android:text="@string/date"
         app:layout_constraintBottom_toTopOf="@+id/H_DateTimeHead"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/V_HeadGuideline"
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Time"
+        android:text="@string/time"
         app:layout_constraintBottom_toTopOf="@+id/H_DateTimeHead"
         app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,26 +111,11 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Description"
+        android:text="@string/description"
         app:layout_constraintBottom_toTopOf="@+id/H_DescriptionHead"
         app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/H_TaskNameFoot" />
-
-    <CheckBox
-        android:id="@+id/reminderCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:clickable="false"
-        android:text="Reminder"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/H_DateTimeFoot" />
 
     <android.support.constraint.Guideline
         android:id="@+id/H_TaskNameHead"
@@ -182,7 +167,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Add"
+        android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -195,7 +180,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Time"
+        android:text="@string/time"
         app:layout_constraintBottom_toTopOf="@+id/H_DateTimeFoot"
         app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -207,7 +192,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Date"
+        android:text="@string/date"
         app:layout_constraintBottom_toTopOf="@+id/H_DateTimeFoot"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -220,7 +205,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".8" />
+        app:layout_constraintGuide_percent=".85" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
@@ -228,5 +213,19 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent=".7" />
+
+    <CheckBox
+        android:id="@+id/reminderCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/reminder"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeButton" />
 
 </android.support.constraint.ConstraintLayout>
