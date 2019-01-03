@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -39,6 +40,7 @@ public class Login extends AppCompatActivity {
     private Button loginButton;
     private TextView createAccountButton;
     private Context context;
+    private SharedPreferences sharedPreferences;
 
 //    private FragmentManager fragmentManager = getSupportFragmentManager();
 ////    private FragmentTransaction fragmentTransaction;
@@ -48,36 +50,34 @@ public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //set splash theme
         setTheme(R.style.SplashStyle);
 
         super.onCreate(savedInstanceState);
 
+        //set regular theme and inflate the layout
         setTheme(R.style.AppTheme_NoActionBar);
         setContentView(R.layout.activity_login);
 
-
+        //get the context of this activity
         context = this;
+        //get the shared preferences for the login data
+        sharedPreferences = getSharedPreferences("login",MODE_PRIVATE);
+
+        //get button views
         loginButton = (Button) findViewById(R.id.loginButton);
         createAccountButton = (TextView) findViewById(R.id.createAccountView);
 
-
+        //set a listener for the login button
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //run login
-                if (accountType.isEmpty()){
-                    //admin
-                }else if (accountType.equals("admin")){
-                    //admin
-                }else if (accountType.equals("user")){
-                    //user
-                }else{
-                    //error
-                }
+                getAccountType();
+                openDashboard();
             }
         });
 
-
+        //set a listener for create account button
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,12 +85,6 @@ public class Login extends AppCompatActivity {
                 startActivity(createAccountIntent);
             }
         });
-
-
-
-
-
-
 
 //
 //
@@ -133,6 +127,22 @@ public class Login extends AppCompatActivity {
 //
 //            }
 //        });
+    }
+
+    private void openDashboard(){
+        Intent dashBoard;
+        if (accountType.isEmpty()){
+//            dashBoard = new Intent(this,);
+        }
+        else if (accountType.equals("admin")){
+
+        }else{
+
+        }
+    }
+
+    private void getAccountType(){
+//        this.accountType = "admin";
     }
 //
 //    @Override
