@@ -19,8 +19,8 @@ public class CreateAccount extends AppCompatActivity {
 
         accountTypeSpinner = (Spinner) findViewById(R.id.chooseAccountTypeSpinner);
         ArrayList<String> accountTypesList = new ArrayList<>();
-        accountTypesList.add("Admin");
         accountTypesList.add("User");
+        accountTypesList.add("Admin");
 
 
         final ArrayAdapter<String> accountSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, accountTypesList);

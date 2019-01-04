@@ -25,5 +25,7 @@
         completions."
     </string>
     <string name="create_account_string">Create account!</string>
+    <string name="title_activity_dashboard">Dashboard</string>
+    <string name="logout_string">Logout</string>
 
 </resources>

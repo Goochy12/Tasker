@@ -29,7 +29,11 @@
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".EditTaskActivity" />
         <activity android:name=".UserHome" />
-        <activity android:name=".CreateAccount"></activity>
+        <activity android:name=".CreateAccount" />
+        <activity
+            android:name=".Dashboard"
+            android:label="@string/title_activity_dashboard"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

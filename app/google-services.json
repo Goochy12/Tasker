@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "838521549148",
+    "firebase_url": "https://tasker-recursion.firebaseio.com",
+    "project_id": "tasker-recursion",
+    "storage_bucket": "tasker-recursion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838521549148:android:31867977710ac24f",
+        "android_client_info": {
+          "package_name": "au.com.scroogetech.tasker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838521549148-q20tovjg8uih1ri8o7d9l457i7ok3qmm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "au.com.scroogetech.tasker",
+            "certificate_hash": "5a61ae0f6c87b68bffb91e91606dae0f5226a62f"
+          }
+        },
+        {
+          "client_id": "838521549148-vressmqbj16dqjq3epv2pnnis8rv2ut6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvPpfJx9SJqpcMZtQBmDmK7vBamRmFPPU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838521549148-vressmqbj16dqjq3epv2pnnis8rv2ut6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
