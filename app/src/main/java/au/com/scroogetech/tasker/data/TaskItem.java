@@ -1,9 +1,7 @@
 package au.com.scroogetech.tasker.data;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
-import java.util.ArrayList;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import io.reactivex.annotations.NonNull;
 

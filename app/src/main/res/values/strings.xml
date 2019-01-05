@@ -28,4 +28,10 @@
     <string name="title_activity_dashboard">Dashboard</string>
     <string name="logout_string">Logout</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tasks_string">Tasks</string>
+    <string name="projects_string">Projects</string>
+    <string name="groups_string">Groups</string>
+
 </resources>
