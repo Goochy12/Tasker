@@ -101,13 +101,14 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     private void addAccountDetails(FirebaseUser user){
-        userReference = userReference.child(user.getUid());
+        DatabaseReference currentUserDB = userReference.child(user.getUid());
+
         String accountType = getAccountType();
-        userReference.child("type").setValue(accountType);
-        userReference.setValue("email",user.getEmail());
-        userReference.setValue("name",fullName);
-        userReference.setValue("verified",0);
-        userReference.setValue("uid",user.getUid());
+        currentUserDB.child("type").setValue(accountType);
+        currentUserDB.child("email").setValue(user.getEmail());
+        currentUserDB.child("name").setValue(fullName);
+        currentUserDB.child("verified").setValue(0);
+        currentUserDB.child("uid").setValue(user.getUid());
     }
 
     private String getAccountType() {
