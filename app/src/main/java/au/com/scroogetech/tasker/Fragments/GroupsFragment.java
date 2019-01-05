@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import au.com.scroogetech.tasker.R;
 
@@ -25,5 +28,15 @@ public class GroupsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        TextView tv = (TextView) view.findViewById(R.id.test_text);
+        FloatingActionButton addGroupButton = (FloatingActionButton) view.findViewById(R.id.add_group_button);
+        addGroupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                tv.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 }
