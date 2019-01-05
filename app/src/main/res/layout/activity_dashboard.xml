@@ -5,7 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dashboard">
+    tools:context=".Activities.Dashboard">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/fragment_viewpager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/dash_bottom_nav_activityRef"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_frameLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+
+    </androidx.viewpager.widget.ViewPager>
 
     <FrameLayout
         android:id="@+id/fragment_frameLayout"

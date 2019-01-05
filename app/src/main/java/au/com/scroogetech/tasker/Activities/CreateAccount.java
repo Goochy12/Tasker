@@ -1,8 +1,10 @@
-package au.com.scroogetech.tasker;
+package au.com.scroogetech.tasker.Activities;
 
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import au.com.scroogetech.tasker.R;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import static au.com.scroogetech.tasker.Login.TAG;
+import static au.com.scroogetech.tasker.Activities.StartActivity.TAG;
 
 import java.util.ArrayList;
 

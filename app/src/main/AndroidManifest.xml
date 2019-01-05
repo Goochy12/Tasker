@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".Login"
+            android:name=".Activities.Login"
             android:label="@string/app_name"
             android:theme="@style/SplashStyle">
             <intent-filter>
@@ -26,11 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddTaskActivity" />
-        <activity android:name=".EditTaskActivity" />
-        <activity android:name=".CreateAccount" />
+        <activity android:name=".Activities.AddTaskActivity" />
+        <activity android:name=".Activities.EditTaskActivity" />
+        <activity android:name=".Activities.CreateAccount" />
         <activity
-            android:name=".Dashboard"
+            android:name=".Activities.Dashboard"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

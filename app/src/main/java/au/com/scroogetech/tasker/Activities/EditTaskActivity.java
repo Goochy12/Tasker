@@ -1,4 +1,4 @@
-package au.com.scroogetech.tasker;
+package au.com.scroogetech.tasker.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import au.com.scroogetech.tasker.R;
+import au.com.scroogetech.tasker.TaskViewModel;
 import au.com.scroogetech.tasker.data.TaskItem;
 
 import static au.com.scroogetech.tasker.TaskRecyclerAdapter.TASK_ID;

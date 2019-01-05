@@ -1,30 +1,31 @@
-package au.com.scroogetech.tasker;
+package au.com.scroogetech.tasker.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import au.com.scroogetech.tasker.Fragments.GroupsFragment;
 import au.com.scroogetech.tasker.Fragments.ProjectsFragment;
 import au.com.scroogetech.tasker.Fragments.TasksFragment;
+import au.com.scroogetech.tasker.Fragments.adapters.DashboardViewPagerAdapter;
+import au.com.scroogetech.tasker.R;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import static au.com.scroogetech.tasker.Login.ACCOUNT_TYPE;
-import static au.com.scroogetech.tasker.Login.ACCOUNT_UID;
+import static au.com.scroogetech.tasker.Activities.StartActivity.ACCOUNT_TYPE;
+import static au.com.scroogetech.tasker.Activities.StartActivity.ACCOUNT_UID;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -35,15 +36,17 @@ public class Dashboard extends AppCompatActivity {
     private String uid;
 
     //bottom nav
-    public BottomNavigationView navigation;
+    public BottomNavigationView bottomNavigation;
     private Menu dashAppBar;
     private MenuItem tasksItem;
     private MenuItem projectsItem;
     private MenuItem groupsItem;
 
     //fragments
+    private FragmentPagerAdapter adapterViewPager;
+    private ViewPager vpPager;
     private FragmentManager fragMan;
-    private Fragment taskFrag = new TasksFragment();
+    private Fragment tasksFrag = new TasksFragment();
     private Fragment projectsFrag = new ProjectsFragment();
     private Fragment groupsFrag = new GroupsFragment();
     private Fragment active;
@@ -56,11 +59,11 @@ public class Dashboard extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //bottom nav
-        navigation = (BottomNavigationView) findViewById(R.id.dash_bottom_nav_activityRef);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.dash_bottom_nav_activityRef);
+        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //set a null tint on the selected item
-        navigation.setItemIconTintList(null);
+        bottomNavigation.setItemIconTintList(null);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -76,13 +79,24 @@ public class Dashboard extends AppCompatActivity {
             setUserLayout();
         }
 
-        //set a null tint on the selected item
-        navigation.setItemIconTintList(null);
-
         //get the items
-        tasksItem = navigation.getMenu().getItem(0);
-        projectsItem = navigation.getMenu().getItem(1);
-        groupsItem = navigation.getMenu().getItem(2);
+        tasksItem = bottomNavigation.getMenu().getItem(0);
+        projectsItem = bottomNavigation.getMenu().getItem(1);
+        groupsItem = bottomNavigation.getMenu().getItem(2);
+
+        vpPager = (ViewPager) findViewById(R.id.fragment_viewpager);
+        adapterViewPager = new DashboardViewPagerAdapter(getSupportFragmentManager());
+        vpPager.setAdapter(adapterViewPager);
+        vpPager.setOffscreenPageLimit(3);
+        vpPager.addOnPageChangeListener(mPageChangeListener);
+//
+//        fragMan = getSupportFragmentManager();
+//        fragMan.beginTransaction().add(R.id.fragment_frameLayout, tasksFrag).commit();
+//        active = tasksFrag;
+//
+//        fragMan.beginTransaction().add(R.id.fragment_frameLayout, projectsFrag).hide(projectsFrag).commit();
+//        fragMan.beginTransaction().add(R.id.fragment_frameLayout, groupsFrag).hide(groupsFrag).commit();
+//        fragMan.beginTransaction().add(R.id.dash_bottom_nav_activityRef, accountFrag).hide(accountFrag).commit();
 //
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -128,10 +142,68 @@ public class Dashboard extends AppCompatActivity {
                 return true;
             case R.id.action_logout:
                 mAuth.signOut();
+
+                Intent loginIntent = new Intent(this,Login.class);
+                startActivity(loginIntent);
+
                 finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            changePage(position);
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
+    private void changePage(int position){
+        switch (position) {
+            case 0:
+//
+//                    //set icon to clicked
+                    tasksItem.setIcon(R.drawable.ic_tasks_clicked);
+
+                    //set other icons to not clicked
+                    projectsItem.setIcon(R.drawable.ic_projects_default);
+                    groupsItem.setIcon(R.drawable.ic_groups_default);
+
+                    break;
+
+            case 1:
+
+                    //set icon to clicked
+                    projectsItem.setIcon(R.drawable.ic_projects_clicked);
+
+                    //set other icons to not clicked
+                    tasksItem.setIcon(R.drawable.ic_tasks_default);
+                    groupsItem.setIcon(R.drawable.ic_groups_default);
+
+                break;
+
+            case 2:
+//                set icon to clicked
+                    groupsItem.setIcon(R.drawable.ic_groups_clicked);
+
+                    //set other icons to not clicked
+                    tasksItem.setIcon(R.drawable.ic_tasks_default);
+                    projectsItem.setIcon(R.drawable.ic_projects_default);
+
+                break;
         }
     }
 
@@ -143,39 +215,25 @@ public class Dashboard extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.bottom_nav_allTasks:
-                    //mTextMessage.setText(R.string.title_home);
 
-                    //set icon to clicked
-//                    tasksItem.setIcon(R.drawable.tasksItemClicked);
-
-                    //set other icons to not clicked
-//                    projectsItem.setIcon(R.drawable.projects_default);
-//                    groupsItem.setIcon(R.drawable.groups_default);
-
-                    //load task fragment
-                    fragMan.beginTransaction().hide(active).show(taskFrag).commit();
-                    active = taskFrag;
+                    vpPager.setCurrentItem(0);
 
                     return true;
                 case R.id.bottom_nav_projects:
 
-
-                    //load project fragment
-                    fragMan.beginTransaction().hide(active).show(projectsFrag).commit();
-                    active = projectsFrag;
+                    vpPager.setCurrentItem(1);
 
                     return true;
 
                 case R.id.bottom_nav_groups:
 
-                    //load groups fragment
-                    fragMan.beginTransaction().hide(active).show(groupsFrag).commit();
-                    active = groupsFrag;
+                    vpPager.setCurrentItem(2);
 
                     return true;
             }
             return false;
         }
     };
+
 
 }

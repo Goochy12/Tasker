@@ -1,7 +1,5 @@
-package au.com.scroogetech.tasker;
+package au.com.scroogetech.tasker.Activities;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,12 +8,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,13 +26,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static au.com.scroogetech.tasker.Activities.StartActivity.ACCOUNT_TYPE;
+import static au.com.scroogetech.tasker.Activities.StartActivity.ACCOUNT_UID;
+import static au.com.scroogetech.tasker.Activities.StartActivity.TAG;
+
+import au.com.scroogetech.tasker.R;
+import au.com.scroogetech.tasker.TaskRecyclerAdapter;
+import au.com.scroogetech.tasker.TaskViewModel;
 import au.com.scroogetech.tasker.data.TaskItemDatabase;
 
 public class Login extends AppCompatActivity {
-
-    public static final String TAG = "TaskerTAG";
-    public static final String ACCOUNT_TYPE = "account_type";
-    public static final String ACCOUNT_UID = "account_uid";
 
     private TextView noTasksMessage;
 
@@ -111,7 +116,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) { {
                 accountType = "admin";
                 openDashboard();
-
+//
 //                String email = emailBox.getText().toString();
 //                String password = passwordBox.getText().toString();
 //
@@ -146,17 +151,74 @@ public class Login extends AppCompatActivity {
                 startActivityForResult(createAccountIntent,1);
             }
         });
+    }
 
-        //get the user and check if logged in
-        currentUser = mAuth.getCurrentUser();
-        if (currentUser != null){
-            userLoggedIn = true;
-            uid = currentUser.getUid();
-            accountType = getAccountType();
-
-            //open the dashboard
-            openDashboard();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1){
+            if (resultCode == RESULT_OK){
+                String emailText = data.getStringExtra("email");
+                String passwordText = data.getStringExtra("password");
+                emailBox.setText(emailText);
+                passwordBox.setText(passwordText);
+            }
         }
+    }
+
+    private void openDashboard(){
+        Intent dashBoard = new Intent(this,Dashboard.class);
+        sharedPreferences.edit().putBoolean("logged_in",true).apply();
+        sharedPreferences.edit().putString("account_type",accountType).apply();
+        sharedPreferences.edit().putString("uid",uid).apply();
+
+        dashBoard.putExtra(ACCOUNT_TYPE,accountType);
+        dashBoard.putExtra(ACCOUNT_UID,uid);
+        startActivity(dashBoard);
+        finish();
+
+    }
+
+    private String getAccountType(){
+        DatabaseReference databaseReference = userReference.child(uid);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                try{
+                    accountType = dataSnapshot.child("type").getValue().toString();
+                }catch (NullPointerException e){
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        return accountType;
+    }
+//
+//    //my functions
+//
+//    public void fabOnClick(){
+////        taskViewModel.insert(new TaskItem("New Task","Desc",0));
+//
+//        //launch add task activity
+//        newTask();
+//
+//
+//    }
+//
+//    public void newTask(){
+//        Intent launchAddTask = new Intent(this, AddTaskActivity.class);
+//
+//        startActivity(launchAddTask);
+//    }
+
+
+
 
 //
 //
@@ -199,99 +261,4 @@ public class Login extends AppCompatActivity {
 //
 //            }
 //        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1){
-            if (resultCode == RESULT_OK){
-                String emailText = data.getStringExtra("email");
-                String passwordText = data.getStringExtra("password");
-                emailBox.setText(emailText);
-                passwordBox.setText(passwordText);
-            }
-        }
-    }
-
-    private void openDashboard(){
-        //close progress bar/dialog
-
-        Intent dashBoard = new Intent(this,Dashboard.class);
-        sharedPreferences.edit().putBoolean("logged_in",true);
-        sharedPreferences.edit().putString("account_type",accountType);
-        sharedPreferences.edit().putString("uid",uid);
-
-        dashBoard.putExtra(ACCOUNT_TYPE,accountType);
-        dashBoard.putExtra(ACCOUNT_UID,uid);
-        startActivity(dashBoard);
-        finish();
-
-    }
-
-    private String getAccountType(){
-        DatabaseReference databaseReference = userReference.child(uid);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                try{
-                    accountType = dataSnapshot.child("type").getValue().toString();
-                }catch (NullPointerException e){
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        return accountType;
-    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//
-//        switch (item.getItemId()){
-//            case R.id.action_clear_selected:
-//                taskViewModel.deleteCheckedTasks();
-//
-//                return true;
-//            case R.id.action_clear_all:
-//                taskViewModel.deleteAllTasks();
-//                return true;
-//            case R.id.action_settings:
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-//
-//    //my functions
-//
-//    public void fabOnClick(){
-////        taskViewModel.insert(new TaskItem("New Task","Desc",0));
-//
-//        //launch add task activity
-//        newTask();
-//
-//
-//    }
-//
-//    public void newTask(){
-//        Intent launchAddTask = new Intent(this, AddTaskActivity.class);
-//
-//        startActivity(launchAddTask);
-//    }
 }

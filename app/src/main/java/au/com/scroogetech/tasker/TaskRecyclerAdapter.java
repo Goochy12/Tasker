@@ -1,6 +1,5 @@
 package au.com.scroogetech.tasker;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +18,7 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
+import au.com.scroogetech.tasker.Activities.EditTaskActivity;
 import au.com.scroogetech.tasker.data.TaskItem;
 
 public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapter.HomeViewHolder> {

@@ -1,4 +1,4 @@
-package au.com.scroogetech.tasker;
+package au.com.scroogetech.tasker.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -20,6 +20,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import au.com.scroogetech.tasker.R;
+import au.com.scroogetech.tasker.TaskViewModel;
 import au.com.scroogetech.tasker.data.TaskItem;
 
 public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {

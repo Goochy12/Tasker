@@ -4,17 +4,17 @@
 
     <item
         android:id="@+id/bottom_nav_allTasks"
-        android:icon="@drawable/tasks_clicked"
+        android:icon="@drawable/ic_tasks_clicked"
         android:title="@string/tasks_string" />
 
     <item
         android:id="@+id/bottom_nav_projects"
-        android:icon="@drawable/projects_default"
+        android:icon="@drawable/ic_projects_default"
         android:title="@string/projects_string"/>
 
     <item
         android:id="@+id/bottom_nav_groups"
-        android:icon="@drawable/groups_default"
+        android:icon="@drawable/ic_groups_default"
         android:title="@string/groups_string"/>
 
 </menu>
