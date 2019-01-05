@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import au.com.scroogetech.tasker.R;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -33,6 +34,8 @@ public class StartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //set splash theme
+        setTheme(R.style.SplashStyle);
         super.onCreate(savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance();

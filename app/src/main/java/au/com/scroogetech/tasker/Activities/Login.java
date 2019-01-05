@@ -76,8 +76,6 @@ public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //set splash theme
-        setTheme(R.style.SplashStyle);
 
         super.onCreate(savedInstanceState);
 
