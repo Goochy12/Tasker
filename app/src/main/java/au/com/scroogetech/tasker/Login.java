@@ -225,6 +225,7 @@ public class Login extends AppCompatActivity {
         dashBoard.putExtra(ACCOUNT_TYPE,accountType);
         dashBoard.putExtra(ACCOUNT_UID,uid);
         startActivity(dashBoard);
+        finish();
 
     }
 

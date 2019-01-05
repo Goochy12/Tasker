@@ -75,6 +75,14 @@ public class Dashboard extends AppCompatActivity {
         }else {
             setUserLayout();
         }
+
+        //set a null tint on the selected item
+        navigation.setItemIconTintList(null);
+
+        //get the items
+        tasksItem = navigation.getMenu().getItem(0);
+        projectsItem = navigation.getMenu().getItem(1);
+        groupsItem = navigation.getMenu().getItem(2);
 //
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
