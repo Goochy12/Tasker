@@ -40,7 +40,7 @@ import au.com.scroogetech.tasker.data.TaskItemDatabase;
 
 public class Login extends AppCompatActivity {
 
-    private static final String TAG = "TaskerTAG";
+    public static final String TAG = "TaskerTAG";
     public static final String ACCOUNT_TYPE = "account_type";
     public static final String ACCOUNT_UID = "account_uid";
 
@@ -155,7 +155,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent createAccountIntent = new Intent(context,CreateAccount.class);
-                startActivity(createAccountIntent);
+                startActivityForResult(createAccountIntent,1);
             }
         });
 
@@ -213,6 +213,19 @@ public class Login extends AppCompatActivity {
 //        });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1){
+            if (resultCode == RESULT_OK){
+                String emailText = data.getStringExtra("email");
+                String passwordText = data.getStringExtra("password");
+                emailBox.setText(emailText);
+                passwordBox.setText(passwordText);
+            }
+        }
+    }
+
     private void openDashboard(){
         //close progress bar/dialog
 
@@ -228,7 +241,7 @@ public class Login extends AppCompatActivity {
     }
 
     private String getAccountType(){
-        DatabaseReference databaseReference = database.getReference("accounts").child(uid);
+        DatabaseReference databaseReference = userReference.child(uid);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

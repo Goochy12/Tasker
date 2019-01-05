@@ -28,7 +28,6 @@
         </activity>
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".EditTaskActivity" />
-        <activity android:name=".UserHome" />
         <activity android:name=".CreateAccount" />
         <activity
             android:name=".Dashboard"
