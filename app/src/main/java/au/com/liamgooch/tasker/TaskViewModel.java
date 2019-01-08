@@ -1,4 +1,4 @@
-package au.com.scroogetech.tasker;
+package au.com.liamgooch.tasker;
 
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import au.com.scroogetech.tasker.data.TaskItem;
-import au.com.scroogetech.tasker.data.TaskRepository;
+import au.com.liamgooch.tasker.data.TaskItem;
+import au.com.liamgooch.tasker.data.TaskRepository;
 
 public class TaskViewModel extends AndroidViewModel {
 

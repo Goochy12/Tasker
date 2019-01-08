@@ -1,9 +1,8 @@
-package au.com.scroogetech.tasker.Activities;
+package au.com.liamgooch.tasker.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,7 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import au.com.scroogetech.tasker.R;
+import au.com.liamgooch.tasker.R;
 
 public class StartActivity extends AppCompatActivity {
 

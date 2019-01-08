@@ -1,13 +1,12 @@
-package au.com.scroogetech.tasker.Fragments.adapters;
+package au.com.liamgooch.tasker.Fragments.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import au.com.scroogetech.tasker.Fragments.GroupsFragment;
-import au.com.scroogetech.tasker.Fragments.ProjectsFragment;
-import au.com.scroogetech.tasker.Fragments.TasksFragment;
-import au.com.scroogetech.tasker.R;
+import au.com.liamgooch.tasker.Fragments.GroupsFragment;
+import au.com.liamgooch.tasker.Fragments.ProjectsFragment;
+import au.com.liamgooch.tasker.Fragments.TasksFragment;
 
 public class DashboardViewPagerAdapter extends FragmentPagerAdapter {
 

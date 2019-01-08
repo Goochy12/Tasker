@@ -1,4 +1,4 @@
-package au.com.scroogetech.tasker.Activities;
+package au.com.liamgooch.tasker.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,15 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,14 +21,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import static au.com.scroogetech.tasker.Activities.StartActivity.ACCOUNT_TYPE;
-import static au.com.scroogetech.tasker.Activities.StartActivity.ACCOUNT_UID;
-import static au.com.scroogetech.tasker.Activities.StartActivity.TAG;
+import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_TYPE;
+import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
 
-import au.com.scroogetech.tasker.R;
-import au.com.scroogetech.tasker.TaskRecyclerAdapter;
-import au.com.scroogetech.tasker.TaskViewModel;
-import au.com.scroogetech.tasker.data.TaskItemDatabase;
+import au.com.liamgooch.tasker.R;
+import au.com.liamgooch.tasker.TaskRecyclerAdapter;
+import au.com.liamgooch.tasker.TaskViewModel;
+import au.com.liamgooch.tasker.data.TaskItemDatabase;
 
 public class Login extends AppCompatActivity {
 

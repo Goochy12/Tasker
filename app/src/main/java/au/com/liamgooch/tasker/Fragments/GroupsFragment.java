@@ -1,4 +1,4 @@
-package au.com.scroogetech.tasker.Fragments;
+package au.com.liamgooch.tasker.Fragments;
 
 
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import au.com.scroogetech.tasker.R;
+import au.com.liamgooch.tasker.R;
 
 public class GroupsFragment extends Fragment {
 

@@ -1,4 +1,4 @@
-package au.com.scroogetech.tasker;
+package au.com.liamgooch.tasker;
 
 import org.junit.Test;
 

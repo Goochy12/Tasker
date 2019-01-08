@@ -1,4 +1,4 @@
-package au.com.scroogetech.tasker.data;
+package au.com.liamgooch.tasker.data;
 
 import androidx.room.Database;
 import androidx.room.Room;

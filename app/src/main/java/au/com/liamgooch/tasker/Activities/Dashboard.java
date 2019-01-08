@@ -1,4 +1,4 @@
-package au.com.scroogetech.tasker.Activities;
+package au.com.liamgooch.tasker.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +12,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import au.com.scroogetech.tasker.Fragments.GroupsFragment;
-import au.com.scroogetech.tasker.Fragments.ProjectsFragment;
-import au.com.scroogetech.tasker.Fragments.TasksFragment;
-import au.com.scroogetech.tasker.Fragments.adapters.DashboardViewPagerAdapter;
-import au.com.scroogetech.tasker.R;
+import au.com.liamgooch.tasker.Fragments.GroupsFragment;
+import au.com.liamgooch.tasker.Fragments.ProjectsFragment;
+import au.com.liamgooch.tasker.Fragments.TasksFragment;
+import au.com.liamgooch.tasker.Fragments.adapters.DashboardViewPagerAdapter;
+import au.com.liamgooch.tasker.R;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,8 +24,8 @@ import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import static au.com.scroogetech.tasker.Activities.StartActivity.ACCOUNT_TYPE;
-import static au.com.scroogetech.tasker.Activities.StartActivity.ACCOUNT_UID;
+import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_TYPE;
+import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
 
 public class Dashboard extends AppCompatActivity {
 

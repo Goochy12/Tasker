@@ -1,4 +1,4 @@
-package au.com.scroogetech.tasker.Fragments;
+package au.com.liamgooch.tasker.Fragments;
 
 
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import au.com.scroogetech.tasker.R;
+import au.com.liamgooch.tasker.R;
 
 public class TasksFragment extends Fragment {
 
