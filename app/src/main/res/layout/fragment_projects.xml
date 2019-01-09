@@ -13,7 +13,7 @@
         android:text="Projects Fragment" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_project_button"
+        android:id="@+id/add_project_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

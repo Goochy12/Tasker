@@ -74,7 +74,6 @@ public class Dashboard extends AppCompatActivity {
         uid = loginIntent.getStringExtra(ACCOUNT_UID);
 
 
-
         if (account_type.equals("admin")){
             setAdminLayout();
         }else {
@@ -91,23 +90,7 @@ public class Dashboard extends AppCompatActivity {
         vpPager.setAdapter(adapterViewPager);
         vpPager.setOffscreenPageLimit(3);
         vpPager.addOnPageChangeListener(mPageChangeListener);
-//
-//        fragMan = getSupportFragmentManager();
-//        fragMan.beginTransaction().add(R.id.fragment_frameLayout, tasksFrag).commit();
-//        active = tasksFrag;
-//
-//        fragMan.beginTransaction().add(R.id.fragment_frameLayout, projectsFrag).hide(projectsFrag).commit();
-//        fragMan.beginTransaction().add(R.id.fragment_frameLayout, groupsFrag).hide(groupsFrag).commit();
-//        fragMan.beginTransaction().add(R.id.dash_bottom_nav_activityRef, accountFrag).hide(accountFrag).commit();
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
     }
 
     public void setAdminLayout(){

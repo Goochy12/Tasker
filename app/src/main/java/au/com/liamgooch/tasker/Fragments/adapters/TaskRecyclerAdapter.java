@@ -1,4 +1,4 @@
-package au.com.liamgooch.tasker;
+package au.com.liamgooch.tasker.Fragments.adapters;
 
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -19,6 +19,8 @@ import java.util.Collections;
 import java.util.List;
 
 import au.com.liamgooch.tasker.Activities.EditTaskActivity;
+import au.com.liamgooch.tasker.R;
+import au.com.liamgooch.tasker.TaskViewModel;
 import au.com.liamgooch.tasker.data.TaskItem;
 
 public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapter.HomeViewHolder> {

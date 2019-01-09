@@ -4,10 +4,16 @@
     <item
         android:drawable="@color/colorPrimary"/>
 
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/splash"/>
-    </item>
+    <item
+        android:drawable="@drawable/tasker_icon"
+        android:height="250dp"
+        android:width="250dp"
+        android:gravity="center"/>
+
+    <!--<item>-->
+        <!--<bitmap-->
+            <!--android:gravity="center"-->
+            <!--android:src="@drawable/splash"/>-->
+    <!--</item>-->
 
 </layer-list>

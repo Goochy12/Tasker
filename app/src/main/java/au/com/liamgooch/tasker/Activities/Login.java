@@ -25,7 +25,7 @@ import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_TYPE;
 import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
 
 import au.com.liamgooch.tasker.R;
-import au.com.liamgooch.tasker.TaskRecyclerAdapter;
+import au.com.liamgooch.tasker.Fragments.adapters.TaskRecyclerAdapter;
 import au.com.liamgooch.tasker.TaskViewModel;
 import au.com.liamgooch.tasker.data.TaskItemDatabase;
 

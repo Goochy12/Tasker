@@ -26,7 +26,7 @@ import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.TaskViewModel;
 import au.com.liamgooch.tasker.data.TaskItem;
 
-import static au.com.liamgooch.tasker.TaskRecyclerAdapter.TASK_ID;
+import static au.com.liamgooch.tasker.Fragments.adapters.TaskRecyclerAdapter.TASK_ID;
 
 public class EditTaskActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener{
 
