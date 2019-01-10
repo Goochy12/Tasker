@@ -1,8 +1,10 @@
 package au.com.liamgooch.tasker.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -17,20 +19,32 @@ import au.com.liamgooch.tasker.Fragments.ProjectsFragment;
 import au.com.liamgooch.tasker.Fragments.TasksFragment;
 import au.com.liamgooch.tasker.Fragments.adapters.DashboardViewPagerAdapter;
 import au.com.liamgooch.tasker.R;
+import au.com.liamgooch.tasker.data.TaskItem;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_TYPE;
 import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
+import static au.com.liamgooch.tasker.Activities.StartActivity.DATABASE_VERSION;
 
 public class Dashboard extends AppCompatActivity {
 
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
 
     private String account_type;
     private String uid;
@@ -46,10 +60,17 @@ public class Dashboard extends AppCompatActivity {
     private FragmentPagerAdapter adapterViewPager;
     private ViewPager vpPager;
     private FragmentManager fragMan;
-    private Fragment tasksFrag = new TasksFragment();
-    private Fragment projectsFrag = new ProjectsFragment();
-    private Fragment groupsFrag = new GroupsFragment();
-    private Fragment active;
+
+    private TasksFragment tasksFrag;
+    private ProjectsFragment projectsFrag;
+    private GroupsFragment groupsFrag;
+
+    private ArrayList<ArrayList<String>> raw_user_tasks = new ArrayList<>();
+    private ArrayList<ArrayList<String>> raw_project_tasks = new ArrayList<>();
+    private List<TaskItem> user_tasks;
+    private List<TaskItem> project_tasks;
+
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,14 +106,75 @@ public class Dashboard extends AppCompatActivity {
         projectsItem = bottomNavigation.getMenu().getItem(1);
         groupsItem = bottomNavigation.getMenu().getItem(2);
 
+
+        tasksFrag = new TasksFragment(user_tasks,project_tasks);
+        projectsFrag = new ProjectsFragment();
+        groupsFrag = new GroupsFragment();
+
         vpPager = (ViewPager) findViewById(R.id.fragment_viewpager);
-        adapterViewPager = new DashboardViewPagerAdapter(getSupportFragmentManager());
+
+        adapterViewPager = new DashboardViewPagerAdapter(getSupportFragmentManager(),tasksFrag,projectsFrag,groupsFrag);
         vpPager.setAdapter(adapterViewPager);
         vpPager.setOffscreenPageLimit(3);
         vpPager.addOnPageChangeListener(mPageChangeListener);
 
+
+        //load task data
+
+        //check if local data exists
+        int dbV = 0;
+        int onlineDBV = 0;
+        //local db version
+//        sharedPreferences.getInt(DATABASE_VERSION,dbV);
+        //online db version
+
+
+//        if (dbV == 0){
+//            //download from online if exists
+//        }else if(dbV > onlineDBV){
+//            //upload local to online
+//        }else if (onlineDBV > dbV){
+//            //download online db
+//        }
     }
 
+    ValueEventListener user_tasks_value_event_listener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+
+    ValueEventListener projects_value_event_listener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+
+    public void convertToTasks(ArrayList<ArrayList<String>> tasks){
+        for (int i = 0; i < tasks.size(); i ++){
+            String name = tasks.get(i).get(0);
+            String desc = tasks.get(i).get(1);
+            String startDate = tasks.get(i).get(2);
+            String startTime = tasks.get(i).get(3);
+            String endDate = tasks.get(i).get(4);
+            String endTime = tasks.get(i).get(5);
+            String members = tasks.get(i).get(6);
+            String[] groupMembers = members.split(",");
+            String project = tasks.get(i).get(7);
+        }
+    }
     public void setAdminLayout(){
 
     }

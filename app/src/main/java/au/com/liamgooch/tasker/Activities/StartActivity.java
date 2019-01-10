@@ -22,6 +22,8 @@ public class StartActivity extends AppCompatActivity {
     public static final String TAG = "TaskerTAG";
     public static final String ACCOUNT_TYPE = "account_type";
     public static final String ACCOUNT_UID = "account_uid";
+    public static final String SHARED_PREF = "account_shared_pref";
+    public static final String DATABASE_VERSION = "database_shared_pref_version";
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;

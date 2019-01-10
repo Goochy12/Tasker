@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import au.com.liamgooch.tasker.R;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import static au.com.liamgooch.tasker.Activities.StartActivity.SHARED_PREF;
 import static au.com.liamgooch.tasker.Activities.StartActivity.TAG;
 
 import java.util.ArrayList;
@@ -111,6 +113,11 @@ public class CreateAccount extends AppCompatActivity {
         currentUserDB.child("name").setValue(fullName);
         currentUserDB.child("verified").setValue(0);
         currentUserDB.child("uid").setValue(user.getUid());
+
+        currentUserDB.child("tasks_db").child("version").setValue(0);
+
+//        SharedPreferences sharedPreferences;
+//        sharedPreferences.edit()
     }
 
     private String getAccountType() {

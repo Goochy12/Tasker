@@ -107,7 +107,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 TaskItem taskItem = new TaskItem(taskName,taskDescription,
                         taskTimeDay, taskTimeMonth, taskTimeYear, taskTimeMinute, taskTimeHour, 0,
                         r, timeDate);
-                taskViewModel.insert(taskItem);
+//                taskViewModel.insert(taskItem);
                 finish();
 
             }
