@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import androidx.lifecycle.ViewModelProviders;
+
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
@@ -20,9 +22,17 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.TaskViewModel;
 import au.com.liamgooch.tasker.data.TaskItem;
+import au.com.liamgooch.tasker.data.TaskSync;
+
+import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_TYPE;
+import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
+import static au.com.liamgooch.tasker.data.TaskSync.TASK_NAME;
 
 public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -40,6 +50,10 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private int taskTimeMonth;
     private int taskTimeYear;
 
+    private String accountType;
+    private String uid;
+    private TaskSync taskSync;
+
     private TaskViewModel taskViewModel;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -47,6 +61,12 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        Intent intent = getIntent();
+        accountType = intent.getStringExtra(ACCOUNT_TYPE);
+//        uid = intent.getStringExtra(ACCOUNT_UID);
+//        taskSync = intent.getParcelableExtra("tasksync");
+        taskSync = (TaskSync) intent.getParcelableExtra("tasksync");
 
         taskNameText = (EditText) findViewById(R.id.enterTaskName);
         taskDescriptionText = (EditText) findViewById(R.id.enterDescription);
@@ -77,6 +97,20 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             }
         });
 
+        Button addMemberButton = (Button) findViewById(R.id.addGroupMembersButton);
+        if (accountType.equals("admin")){
+            addMemberButton.setEnabled(true);
+        }else{
+            addMemberButton.setEnabled(false);
+        }
+
+        addMemberButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
 
         Button addTaskButton = (Button) findViewById(R.id.addTaskButton);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -100,13 +134,19 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
 
 //                ArrayList<Integer> timeList = getReminderValue(eventTime);
 
-                String date = "" + taskTimeDay + "/" + taskTimeMonth + "/" + taskTimeYear;
-                String time = "" + taskTimeHour + ":" + taskTimeMinute;
-                String timeDate = date + " @ " + time;
+                String startDate = getDate();
+                String startTime = getTime();
 
-                TaskItem taskItem = new TaskItem(taskName,taskDescription,
-                        taskTimeDay, taskTimeMonth, taskTimeYear, taskTimeMinute, taskTimeHour, 0,
-                        r, timeDate);
+                String endDate = "" + taskTimeDay + "/" + taskTimeMonth + "/" + taskTimeYear;
+                String endTime = "" + taskTimeHour + ":" + taskTimeMinute;
+                String timeDate = endDate + " @ " + endTime;
+
+
+
+                TaskItem taskItem = new TaskItem(taskName,taskDescription, startDate,startTime,endDate,endTime, "null","null",
+                        "",0,r, timeDate);
+
+                taskSync.addUserTask(taskItem);
 //                taskViewModel.insert(taskItem);
                 finish();
 
@@ -175,7 +215,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         String date;
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
+        int month = c.get(Calendar.MONTH + 1);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         date = "" + day + "/" + month + "/" + year;
@@ -187,7 +227,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     public void setTimeDate(){
         Calendar c = Calendar.getInstance();
         taskTimeYear = c.get(Calendar.YEAR);
-        taskTimeMonth = c.get(Calendar.MONTH);
+        taskTimeMonth = c.get(Calendar.MONTH + 1);
         taskTimeDay = c.get(Calendar.DAY_OF_MONTH);
         taskTimeHour = c.get(Calendar.HOUR_OF_DAY);
         taskTimeMinute = c.get(Calendar.MINUTE);
@@ -230,7 +270,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         taskTimeYear = year;
-        taskTimeMonth = monthOfYear;
+        taskTimeMonth = monthOfYear + 1;
         taskTimeDay = dayOfMonth;
 
         String date;

@@ -14,26 +14,39 @@ public class TaskItem {
 
     private String taskName;
     private String taskDesc;
-    private int dayDue;
-    private int monthDue;
-    private int yearDue;
-    private int hourDue;
-    private int minuteDue;
+
+    private String startDate;
+    private String startTime;
+    private String endDate;
+    private String endTime;
+
+    private String project;
+
+    private String task_group;
+    private String groupMembers;
+
     private int taskChecked;
     private int reminder;
+
     private String timeDateString;
 
-    public TaskItem(String taskName, String taskDesc, int dayDue, int monthDue, int yearDue, int minuteDue, int hourDue,
-                    int taskChecked, int reminder, String timeDateString){
+    public TaskItem(String taskName, String taskDesc, String startDate, String startTime, String endDate, String endTime, String project,
+                    String task_group, String groupMembers, int taskChecked, int reminder, String timeDateString){
         this.taskName = taskName;
         this.taskDesc = taskDesc;
-        this.dayDue = dayDue;
-        this.monthDue = monthDue;
-        this.yearDue = yearDue;
-        this.minuteDue = minuteDue;
-        this.hourDue = hourDue;
+
+        this.startDate = startDate;
+        this.startTime = startTime;
+        this.endDate = endDate;
+        this.endTime = endTime;
+
+        this.project = project;
+        this.task_group = task_group;
+        this.groupMembers = groupMembers;
+
         this.taskChecked = taskChecked;
         this.reminder = reminder;
+
         this.timeDateString = timeDateString;
     }
 
@@ -61,52 +74,68 @@ public class TaskItem {
         this.taskDesc = taskDesc;
     }
 
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
+    }
+
+    public String getTask_group() {
+        return task_group;
+    }
+
+    public void setTask_group(String task_group) {
+        this.task_group = task_group;
+    }
+
+    public String getGroupMembers() {
+        return groupMembers;
+    }
+
+    public void setGroupMembers(String groupMembers) {
+        this.groupMembers = groupMembers;
+    }
+
     public int getTaskChecked() {
         return taskChecked;
     }
 
     public void setTaskChecked(int taskChecked) {
         this.taskChecked = taskChecked;
-    }
-
-    public int getMinuteDue() {
-        return minuteDue;
-    }
-
-    public void setMinuteDue(int minuteDue) {
-        this.minuteDue = minuteDue;
-    }
-
-    public int getHourDue() {
-        return hourDue;
-    }
-
-    public void setHourDue(int hourDue) {
-        this.hourDue = hourDue;
-    }
-
-    public int getYearDue() {
-        return yearDue;
-    }
-
-    public void setYearDue(int yearDue) {
-        this.yearDue = yearDue;
-    }
-
-    public int getMonthDue() {
-        return monthDue;
-    }
-
-    public void setMonthDue(int monthDue) {
-        this.monthDue = monthDue;
-    }
-
-    public int getDayDue() {
-        return dayDue;
-    }
-
-    public void setDayDue(int dayDue) {
-        this.dayDue = dayDue;
     }
 
     public int getReminder() {

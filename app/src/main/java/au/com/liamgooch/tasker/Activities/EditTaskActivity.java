@@ -72,11 +72,20 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
 
         taskNameText.setText(taskItem.getTaskName());
         taskDescriptionText.setText(taskItem.getTaskDesc());
-        taskTimeDay = taskItem.getDayDue();
-        taskTimeMonth = taskItem.getMonthDue();
-        taskTimeYear = taskItem.getYearDue();
-        taskTimeHour = taskItem.getHourDue();
-        taskTimeMinute = taskItem.getMinuteDue();
+
+        String dueDate = taskItem.getEndDate();
+        String dueTime = taskItem.getEndTime();
+
+        String[] dueDateList = dueDate.split("/");
+        String[] dueTimeList = dueDate.split(":");
+
+        taskTimeDay = Integer.parseInt(dueDateList[0]);
+        taskTimeMonth = Integer.parseInt(dueDateList[1]);
+        taskTimeYear = Integer.parseInt(dueDateList[2]);
+
+        taskTimeHour = Integer.parseInt(dueTimeList[0]);
+        taskTimeMinute = Integer.parseInt(dueTimeList[1]);
+
         taskChecked = taskItem.getTaskChecked();
         taskReminder = taskItem.getReminder();
         if (taskReminder != 0){
@@ -126,9 +135,9 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
                 String time = "" + taskTimeHour + ":" + taskTimeMinute;
                 String timeDate = date + " @ " + time;
 
-                TaskItem taskItem = new TaskItem(taskName,taskDescription,
-                        taskTimeDay, taskTimeMonth, taskTimeYear, taskTimeMinute, taskTimeHour, taskChecked, r, timeDate);
-                taskViewModel.updateTaskItem(taskItem,taskID);
+//                TaskItem taskItem = new TaskItem(taskName,taskDescription,
+//                        taskTimeDay, taskTimeMonth, taskTimeYear, taskTimeMinute, taskTimeHour, taskChecked, r, timeDate);
+//                taskViewModel.updateTaskItem(taskItem,taskID);
                 finish();
 
             }

@@ -5,7 +5,7 @@
     <string name="clear_all">Clear All</string>
     <string name="clear_selected">Clear Selected</string>
     <string name="reminder">Reminder</string>
-    <string name="description">Description</string>
+    <string name="description">Description:</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="task_name">Task Name:</string>
@@ -33,5 +33,6 @@
     <string name="tasks_string">Tasks</string>
     <string name="projects_string">Projects</string>
     <string name="groups_string">Groups</string>
+    <string name="add_members">Add Members</string>
 
 </resources>

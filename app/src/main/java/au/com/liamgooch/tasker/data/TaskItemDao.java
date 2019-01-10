@@ -38,9 +38,9 @@ public interface TaskItemDao {
     @Query("SELECT * FROM TASKLIST_TABLE WHERE itemID = :id")
     TaskItem getTaskItem(int id);
 
-    @Query("UPDATE TASKLIST_TABLE SET taskName = :name, taskDesc = :desc, dayDue = :dayDue," +
-            "monthDue = :monthDue, yearDue = :yearDue, hourDue = :hourDue, minuteDue = :minuteDue, taskChecked = :taskChecked," +
+    @Query("UPDATE TASKLIST_TABLE SET taskName = :taskName, taskDesc = :taskDesc, startDate = :startDate, startTime = :startTime," +
+            "endDate = :endDate, endTime = :endTime, project = :project, task_group = :task_group, groupMembers = :groupMembers, taskChecked = :taskChecked," +
             "reminder = :reminder, timeDateString = :timeDateString WHERE itemID = :id")
-    void updateTaskItem(int id, String name, String desc, int dayDue, int monthDue, int yearDue, int hourDue, int minuteDue, int taskChecked,
-                        int reminder, String timeDateString);
+    void updateTaskItem(int id, String taskName, String taskDesc, String startDate, String startTime, String endDate, String endTime, String project,
+                        String task_group, String groupMembers, int taskChecked, int reminder, String timeDateString);
 }

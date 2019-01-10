@@ -107,6 +107,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) { {
                 accountType = "admin";
+                uid = "testadmin";
                 openDashboard();
 //
 //                String email = emailBox.getText().toString();

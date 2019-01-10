@@ -67,9 +67,9 @@ public class TaskRepository {
 
         @Override
         protected Void doInBackground(final TaskItem... params) {
-            TaskItem newTaskItem = new TaskItem(params[0].getTaskName(),params[0].getTaskDesc(),
-                    params[0].getDayDue(), params[0].getMonthDue(), params[0].getYearDue(),
-                    params[0].getMinuteDue(), params[0].getHourDue(), params[0].getTaskChecked(), params[0].getReminder(), params[0].getTimeDateString());
+            TaskItem newTaskItem = new TaskItem(params[0].getTaskName(),params[0].getTaskDesc(),params[0].getStartDate(), params[0].getStartTime(),
+                    params[0].getEndDate(),params[0].getEndTime(),params[0].getProject(),params[0].getTask_group(),
+                    params[0].getGroupMembers(), params[0].getTaskChecked(), params[0].getReminder(),params[0].getTimeDateString());
             mAsyncTaskDao.createNewTaskItem(newTaskItem);
 
             return null;
@@ -153,9 +153,9 @@ public class TaskRepository {
 
         @Override
         protected Void doInBackground(final TaskItem... params) {
-            mAsyncTaskDao.updateTaskItem(id,params[0].getTaskName(),params[0].getTaskDesc(), params[0].getDayDue(), params[0].getMonthDue(),
-                    params[0].getYearDue(), params[0].getMinuteDue(), params[0].getHourDue(), params[0].getTaskChecked(),
-                    params[0].getReminder(), params[0].getTimeDateString());
+            mAsyncTaskDao.updateTaskItem(id,params[0].getTaskName(),params[0].getTaskDesc(),params[0].getStartDate(), params[0].getStartTime(),
+                    params[0].getEndDate(),params[0].getEndTime(),params[0].getProject(),params[0].getTask_group(),
+                    params[0].getGroupMembers(), params[0].getTaskChecked(), params[0].getReminder(),params[0].getTimeDateString());
 
             return null;
         }

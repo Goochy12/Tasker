@@ -32,10 +32,8 @@
         android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <TextView
         android:id="@+id/AddTaskHeader"
@@ -123,12 +121,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
         android:scrollHorizontally="false"
+        android:singleLine="false"
+        android:textAlignment="textStart"
         app:layout_constraintBottom_toTopOf="@+id/H_DescriptionFoot"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -141,7 +139,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:text="@string/description"
         app:layout_constraintBottom_toTopOf="@+id/H_DescriptionHead"
         app:layout_constraintEnd_toStartOf="@+id/V_HeadGuideline"
@@ -167,28 +164,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.33" />
+        app:layout_constraintGuide_percent="0.3" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/H_DescriptionFoot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".45" />
+        app:layout_constraintGuide_percent=".5" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/H_DateTimeHead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".52" />
+        app:layout_constraintGuide_percent=".55" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/H_DateTimeFoot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".63" />
+        app:layout_constraintGuide_percent=".65" />
 
     <Button
         android:id="@+id/timeButton"
@@ -229,7 +226,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent=".7" />
+        app:layout_constraintGuide_percent="0.63" />
 
     <ScrollView
         android:id="@+id/groupListScrollView"
@@ -238,15 +235,33 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@color/grey"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/H_DateTimeFoot">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical">
+
+        </LinearLayout>
+
     </ScrollView>
+
+    <Button
+        android:id="@+id/addGroupMembersButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/add_members"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/H_DateTimeFoot" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

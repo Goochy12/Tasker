@@ -20,6 +20,7 @@ import au.com.liamgooch.tasker.Fragments.TasksFragment;
 import au.com.liamgooch.tasker.Fragments.adapters.DashboardViewPagerAdapter;
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.data.TaskItem;
+import au.com.liamgooch.tasker.data.TaskSync;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -107,7 +108,9 @@ public class Dashboard extends AppCompatActivity {
         groupsItem = bottomNavigation.getMenu().getItem(2);
 
 
-        tasksFrag = new TasksFragment(user_tasks,project_tasks);
+        TaskSync taskSync = new TaskSync(tasksFrag,projectsFrag,groupsFrag,uid,this);
+
+        tasksFrag = new TasksFragment(user_tasks,project_tasks,taskSync,uid,account_type);
         projectsFrag = new ProjectsFragment();
         groupsFrag = new GroupsFragment();
 
@@ -136,45 +139,10 @@ public class Dashboard extends AppCompatActivity {
 //        }else if (onlineDBV > dbV){
 //            //download online db
 //        }
+
+        taskSync.syncTasks();
     }
 
-    ValueEventListener user_tasks_value_event_listener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
-
-    ValueEventListener projects_value_event_listener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
-
-    public void convertToTasks(ArrayList<ArrayList<String>> tasks){
-        for (int i = 0; i < tasks.size(); i ++){
-            String name = tasks.get(i).get(0);
-            String desc = tasks.get(i).get(1);
-            String startDate = tasks.get(i).get(2);
-            String startTime = tasks.get(i).get(3);
-            String endDate = tasks.get(i).get(4);
-            String endTime = tasks.get(i).get(5);
-            String members = tasks.get(i).get(6);
-            String[] groupMembers = members.split(",");
-            String project = tasks.get(i).get(7);
-        }
-    }
     public void setAdminLayout(){
 
     }
@@ -303,4 +271,31 @@ public class Dashboard extends AppCompatActivity {
     };
 
 
+    public void setUser_tasks(List<TaskItem> user_tasks) {
+        this.user_tasks = user_tasks;
+        //set task frag - notify change
+        while (tasksFrag == null){
+
+        }
+        while (tasksFrag.taskRecyclerAdapter == null){
+
+        }
+        compileTasks();
+//        tasksFrag.taskRecyclerAdapter.setTasks();
+    }
+
+    public void setProject_tasks(List<TaskItem> project_tasks) {
+        this.project_tasks = project_tasks;
+    }
+
+    public void compileTasks(){
+        List<TaskItem> taskItems = new ArrayList<>();
+        if (user_tasks != null){
+            taskItems.addAll(user_tasks);
+        }
+        if (project_tasks != null){
+            taskItems.addAll(project_tasks);
+        }
+        tasksFrag.taskRecyclerAdapter.setTasks(taskItems);
+    }
 }

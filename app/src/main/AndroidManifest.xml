@@ -18,21 +18,29 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name="au.com.liamgooch.tasker.Activities.StartActivity"
-            android:theme="@style/SplashStyle">
+            android:theme="@style/SplashStyle"
+            tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="au.com.liamgooch.tasker.Activities.Login"/>
-        <activity android:name="au.com.liamgooch.tasker.Activities.AddTaskActivity" />
-        <activity android:name="au.com.liamgooch.tasker.Activities.EditTaskActivity" />
-        <activity android:name="au.com.liamgooch.tasker.Activities.CreateAccount" />
+        <activity android:name="au.com.liamgooch.tasker.Activities.Login"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name="au.com.liamgooch.tasker.Activities.AddTaskActivity"
+            tools:ignore="ExtraText,InnerclassSeparator"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity android:name="au.com.liamgooch.tasker.Activities.EditTaskActivity"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name="au.com.liamgooch.tasker.Activities.CreateAccount"
+            tools:ignore="InnerclassSeparator" />
         <activity
             android:name="au.com.liamgooch.tasker.Activities.Dashboard"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="InnerclassSeparator" />
     </application>
 
 </manifest>
