@@ -3,6 +3,8 @@ package au.com.liamgooch.tasker.Activities;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.icu.util.Calendar;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,8 +27,11 @@ import android.widget.TimePicker;
 
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.TaskViewModel;
+import au.com.liamgooch.tasker.data.TaskChanger;
 import au.com.liamgooch.tasker.data.TaskItem;
 
+import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
+import static au.com.liamgooch.tasker.Activities.StartActivity.TAG;
 import static au.com.liamgooch.tasker.Fragments.adapters.TaskRecyclerAdapter.TASK_ID;
 
 public class EditTaskActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener{
@@ -36,7 +42,7 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
     private Button dateButton;
     private CheckBox reminder;
 
-    private int taskID;
+    private String taskID;
 
     private String taskName;
     private String taskDescription;
@@ -48,6 +54,8 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
     private int taskChecked;
     private int taskReminder;
 
+    private String uid;
+
     TaskViewModel taskViewModel;
 
     @Override
@@ -57,11 +65,16 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
 
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
 
-        Intent fromHome = getIntent();
-        String id = fromHome.getStringExtra(TASK_ID);
-        taskID = Integer.parseInt(id);
+        Intent intent = getIntent();
+        taskID = intent.getStringExtra(TASK_ID);
 
-        TaskItem taskItem = taskViewModel.getTaskItem(taskID);
+//        TaskItem taskItem = taskViewModel.getTaskItem(taskID);
+
+        uid = intent.getStringExtra(ACCOUNT_UID);
+
+        TaskChanger taskChanger = new TaskChanger(uid);
+        TaskItem taskItem = taskChanger.getUserTask(taskID);
+
 
         taskNameText = (EditText) findViewById(R.id.enterTaskName);
         taskDescriptionText = (EditText) findViewById(R.id.enterDescription);
@@ -122,6 +135,7 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
 
         Button addTaskButton = (Button) findViewById(R.id.addTaskButton);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 taskName = taskNameText.getText().toString();
@@ -131,9 +145,18 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
                     r = 1;
                 }
 
-                String date = "" + taskTimeDay + "/" + taskTimeMonth + "/" + taskTimeYear;
-                String time = "" + taskTimeHour + ":" + taskTimeMinute;
-                String timeDate = date + " @ " + time;
+                String startDate = getDate();
+                String startTime = getTime();
+
+                String endDate = "" + taskTimeDay + "/" + taskTimeMonth + "/" + taskTimeYear;
+                String endTime = "" + taskTimeHour + ":" + taskTimeMinute;
+                String timeDate = endDate + " @ " + endTime;
+
+                String id = taskItem.getItemID();
+
+                TaskItem newTaskItem = new TaskItem(id,taskName,taskDescription, startDate,startTime,endDate,endTime, "null","null",
+                        "",0,r, timeDate);
+                taskChanger.updateUserTask(newTaskItem);
 
 //                TaskItem taskItem = new TaskItem(taskName,taskDescription,
 //                        taskTimeDay, taskTimeMonth, taskTimeYear, taskTimeMinute, taskTimeHour, taskChecked, r, timeDate);
@@ -176,6 +199,16 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
         });
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private String generateID(){
+        String id = "";
+
+        id = String.valueOf(Calendar.YEAR) + String.valueOf(Calendar.MONTH + 1) + String.valueOf(Calendar.DAY_OF_MONTH) +
+                String.valueOf(Calendar.HOUR) + String.valueOf(Calendar.MINUTE) + String.valueOf(Calendar.SECOND);
+
+        return id;
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)

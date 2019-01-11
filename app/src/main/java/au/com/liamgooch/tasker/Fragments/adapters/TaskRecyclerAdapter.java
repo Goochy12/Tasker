@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,9 @@ import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.TaskViewModel;
 import au.com.liamgooch.tasker.data.TaskItem;
 
+import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
+import static au.com.liamgooch.tasker.Activities.StartActivity.TAG;
+
 public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapter.HomeViewHolder> {
 
     public static final String TASK_ID = "TASK_ID";
@@ -33,10 +37,13 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
     private TaskViewModel taskViewModel;
     private Context context;
 
+    private String uid;
+
     //constructor
-    public TaskRecyclerAdapter(Context context){
+    public TaskRecyclerAdapter(Context context, String uid){
         //layoutInflater = LayoutInflater.from(context);
         this.context = context;
+        this.uid = uid;
     }
 
     //create views
@@ -96,6 +103,7 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
 
                 String id = String.valueOf(taskItems.get(position).getItemID());
                 editActivityLauncher.putExtra(TASK_ID,id);
+                editActivityLauncher.putExtra(ACCOUNT_UID,uid);
 
                 context.startActivity(editActivityLauncher);
             }

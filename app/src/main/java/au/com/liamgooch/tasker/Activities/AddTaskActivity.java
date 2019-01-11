@@ -142,9 +142,9 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 String endTime = "" + taskTimeHour + ":" + taskTimeMinute;
                 String timeDate = endDate + " @ " + endTime;
 
+                String id = generateID();
 
-
-                TaskItem taskItem = new TaskItem(taskName,taskDescription, startDate,startTime,endDate,endTime, "null","null",
+                TaskItem taskItem = new TaskItem(id,taskName,taskDescription, startDate,startTime,endDate,endTime, "null","null",
                         "",0,r, timeDate);
 
                 taskChanger.addUserTask(taskItem);
@@ -176,6 +176,23 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
 
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private String generateID(){
+        String id = "";
+
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        int second = c.get(Calendar.SECOND);
+
+        id = year + "_" + month + "_" + day + "_" + hour + "_" + minute + "_" + second;
+
+        return id;
     }
 
 //    private ArrayList<Integer> getReminderValue(ArrayList<Integer> eventTime) {
@@ -216,7 +233,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         String date;
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH + 1);
+        int month = c.get(Calendar.MONTH) + 1;
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         date = "" + day + "/" + month + "/" + year;
@@ -228,7 +245,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     public void setTimeDate(){
         Calendar c = Calendar.getInstance();
         taskTimeYear = c.get(Calendar.YEAR);
-        taskTimeMonth = c.get(Calendar.MONTH + 1);
+        taskTimeMonth = c.get(Calendar.MONTH) + 1;
         taskTimeDay = c.get(Calendar.DAY_OF_MONTH);
         taskTimeHour = c.get(Calendar.HOUR_OF_DAY);
         taskTimeMinute = c.get(Calendar.MINUTE);

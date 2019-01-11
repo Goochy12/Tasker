@@ -24,10 +24,12 @@ import au.com.liamgooch.tasker.Fragments.ProjectsFragment;
 import au.com.liamgooch.tasker.Fragments.TasksFragment;
 
 import static au.com.liamgooch.tasker.Activities.StartActivity.TAG;
+import static au.com.liamgooch.tasker.Fragments.adapters.TaskRecyclerAdapter.TASK_ID;
 
 public class TaskSync {
 
     //strings
+    public static final String USER_TASK_ID = "task_id";
     public static final String TASK_NAME = "task_name";
     public static final String TASK_DESC = "task_desc";
 
@@ -75,7 +77,6 @@ public class TaskSync {
         DatabaseReference dbR = database.getReference("accounts").child(uid);
         try{
             tasksReference = dbR.child("user_tasks");
-            Log.i(TAG, "TaskSync: In user tasks");
         }catch (NullPointerException ignore){
             Log.i(TAG, "TaskSync: Null Pointer getting user tasks");
         }
@@ -107,7 +108,6 @@ public class TaskSync {
     }
 
     public void syncTasks(){
-        Log.i(TAG, "syncTasks: Initiated");
         tasksReference.addValueEventListener(user_tasks_value_event_listener);
         projectsReference.addValueEventListener(projects_value_event_listener);
         projectTasksReference.addValueEventListener(project_tasks_value_event_listener);
@@ -118,13 +118,13 @@ public class TaskSync {
     ValueEventListener user_tasks_value_event_listener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            Log.i(TAG, "onDataChange: Initated");
             raw_user_tasks.clear();
 
             for (DataSnapshot eachTask : dataSnapshot.getChildren()){
                 ArrayList<String> list = new ArrayList<>();
                 //get Task information
                 try {
+                    String id = (String) eachTask.child(USER_TASK_ID).getValue();
                     String name = (String) eachTask.child(TASK_NAME).getValue();
                     String desc = (String) eachTask.child(TASK_DESC).getValue();
 
@@ -142,6 +142,7 @@ public class TaskSync {
 
                     String timeDateString = (String) eachTask.child(TASK_TIME_DATE_STRING).getValue();
 
+                    list.add(id);
                     list.add(name);
                     list.add(desc);
 
@@ -228,24 +229,25 @@ public class TaskSync {
     public List<TaskItem> convertToTasks(ArrayList<ArrayList<String>> tasks){
         List<TaskItem> itemList = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i ++){
-            String name = tasks.get(i).get(0);
-            String desc = tasks.get(i).get(1);
+            String id = tasks.get(i).get(0);
+            String name = tasks.get(i).get(1);
+            String desc = tasks.get(i).get(2);
 
-            String startDate = tasks.get(i).get(2);
-            String startTime = tasks.get(i).get(3);
-            String endDate = tasks.get(i).get(4);
-            String endTime = tasks.get(i).get(5);
+            String startDate = tasks.get(i).get(3);
+            String startTime = tasks.get(i).get(4);
+            String endDate = tasks.get(i).get(5);
+            String endTime = tasks.get(i).get(6);
 
-            String project = tasks.get(i).get(6);
-            String group = tasks.get(i).get(7);
-            String members = tasks.get(i).get(8);
+            String project = tasks.get(i).get(7);
+            String group = tasks.get(i).get(8);
+            String members = tasks.get(i).get(9);
 
-            int taskChecked = Integer.parseInt(tasks.get(i).get(9));
-            int reminder = Integer.parseInt(tasks.get(i).get(10));
+            int taskChecked = Integer.parseInt(tasks.get(i).get(10));
+            int reminder = Integer.parseInt(tasks.get(i).get(11));
 
-            String timeDateString = tasks.get(i).get(11);
+            String timeDateString = tasks.get(i).get(12);
 
-            TaskItem taskItem = new TaskItem(name,desc,startDate,startTime,endDate,endTime,project,group,members,taskChecked,reminder,timeDateString);
+            TaskItem taskItem = new TaskItem(id,name,desc,startDate,startTime,endDate,endTime,project,group,members,taskChecked,reminder,timeDateString);
             itemList.add(taskItem);
         }
 

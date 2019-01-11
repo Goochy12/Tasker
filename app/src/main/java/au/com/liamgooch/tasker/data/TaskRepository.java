@@ -67,8 +67,8 @@ public class TaskRepository {
 
         @Override
         protected Void doInBackground(final TaskItem... params) {
-            TaskItem newTaskItem = new TaskItem(params[0].getTaskName(),params[0].getTaskDesc(),params[0].getStartDate(), params[0].getStartTime(),
-                    params[0].getEndDate(),params[0].getEndTime(),params[0].getProject(),params[0].getTask_group(),
+            TaskItem newTaskItem = new TaskItem(params[0].getItemID(),params[0].getTaskName(),params[0].getTaskDesc(),params[0].getStartDate(),
+                    params[0].getStartTime(), params[0].getEndDate(),params[0].getEndTime(),params[0].getProject(),params[0].getTask_group(),
                     params[0].getGroupMembers(), params[0].getTaskChecked(), params[0].getReminder(),params[0].getTimeDateString());
             mAsyncTaskDao.createNewTaskItem(newTaskItem);
 
@@ -102,7 +102,7 @@ public class TaskRepository {
 
         @Override
         protected Void doInBackground(final TaskItem... params) {
-            mAsyncTaskDao.deleteTaskItem(params[0].getItemID());
+            mAsyncTaskDao.deleteTaskItem(params[0].getDbItemID());
 
             return null;
         }
@@ -135,7 +135,7 @@ public class TaskRepository {
         @Override
         protected Void doInBackground(final TaskItem... params) {
 
-            mAsyncTaskDao.setTaskChecked(params[0].getTaskChecked(),params[0].getItemID());
+            mAsyncTaskDao.setTaskChecked(params[0].getTaskChecked(),params[0].getDbItemID());
 
             return null;
         }
@@ -153,8 +153,8 @@ public class TaskRepository {
 
         @Override
         protected Void doInBackground(final TaskItem... params) {
-            mAsyncTaskDao.updateTaskItem(id,params[0].getTaskName(),params[0].getTaskDesc(),params[0].getStartDate(), params[0].getStartTime(),
-                    params[0].getEndDate(),params[0].getEndTime(),params[0].getProject(),params[0].getTask_group(),
+            mAsyncTaskDao.updateTaskItem(id, params[0].getItemID(),params[0].getTaskName(),params[0].getTaskDesc(),params[0].getStartDate(),
+                    params[0].getStartTime(), params[0].getEndDate(),params[0].getEndTime(),params[0].getProject(),params[0].getTask_group(),
                     params[0].getGroupMembers(), params[0].getTaskChecked(), params[0].getReminder(),params[0].getTimeDateString());
 
             return null;

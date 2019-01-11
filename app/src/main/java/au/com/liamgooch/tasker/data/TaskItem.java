@@ -10,7 +10,9 @@ public class TaskItem {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    private int itemID;
+    private int dbItemID;
+
+    private String itemID;
 
     private String taskName;
     private String taskDesc;
@@ -30,8 +32,10 @@ public class TaskItem {
 
     private String timeDateString;
 
-    public TaskItem(String taskName, String taskDesc, String startDate, String startTime, String endDate, String endTime, String project,
+    public TaskItem(String itemID, String taskName, String taskDesc, String startDate, String startTime, String endDate, String endTime, String project,
                     String task_group, String groupMembers, int taskChecked, int reminder, String timeDateString){
+        this.itemID = itemID;
+
         this.taskName = taskName;
         this.taskDesc = taskDesc;
 
@@ -50,11 +54,11 @@ public class TaskItem {
         this.timeDateString = timeDateString;
     }
 
-    public int getItemID() {
+    public String getItemID() {
         return itemID;
     }
 
-    public void setItemID(int itemID) {
+    public void setItemID(String itemID) {
         this.itemID = itemID;
     }
 
@@ -152,5 +156,13 @@ public class TaskItem {
 
     public void setTimeDateString(String timeDateString) {
         this.timeDateString = timeDateString;
+    }
+
+    public int getDbItemID() {
+        return dbItemID;
+    }
+
+    public void setDbItemID(int dbItemID) {
+        this.dbItemID = dbItemID;
     }
 }

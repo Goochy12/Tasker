@@ -81,7 +81,6 @@ public class TasksFragment extends Fragment {
                 Intent launchAddTask = new Intent(view.getContext(), AddTaskActivity.class);
                 launchAddTask.putExtra(ACCOUNT_TYPE,accountType);
                 launchAddTask.putExtra(ACCOUNT_UID,uid);
-                launchAddTask.putExtra("tasksync", (Parcelable) taskSync);
                 startActivity(launchAddTask);
             }
         });
@@ -97,7 +96,7 @@ public class TasksFragment extends Fragment {
         taskRecyclerLayoutManager = new LinearLayoutManager(view.getContext(),RecyclerView.VERTICAL,false);
         taskRecycler.setLayoutManager(taskRecyclerLayoutManager);
 
-        taskRecyclerAdapter = new TaskRecyclerAdapter(view.getContext());
+        taskRecyclerAdapter = new TaskRecyclerAdapter(view.getContext(),uid);
         taskRecycler.setAdapter(taskRecyclerAdapter);
     }
 }
