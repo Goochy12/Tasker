@@ -22,11 +22,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.TaskViewModel;
+import au.com.liamgooch.tasker.data.TaskChanger;
 import au.com.liamgooch.tasker.data.TaskItem;
 import au.com.liamgooch.tasker.data.TaskSync;
 
@@ -52,7 +54,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
 
     private String accountType;
     private String uid;
-    private TaskSync taskSync;
+    private TaskChanger taskChanger;
 
     private TaskViewModel taskViewModel;
 
@@ -64,9 +66,8 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
 
         Intent intent = getIntent();
         accountType = intent.getStringExtra(ACCOUNT_TYPE);
-//        uid = intent.getStringExtra(ACCOUNT_UID);
-//        taskSync = intent.getParcelableExtra("tasksync");
-        taskSync = (TaskSync) intent.getParcelableExtra("tasksync");
+        uid = intent.getStringExtra(ACCOUNT_UID);
+        taskChanger = new TaskChanger(uid);
 
         taskNameText = (EditText) findViewById(R.id.enterTaskName);
         taskDescriptionText = (EditText) findViewById(R.id.enterDescription);
@@ -146,7 +147,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 TaskItem taskItem = new TaskItem(taskName,taskDescription, startDate,startTime,endDate,endTime, "null","null",
                         "",0,r, timeDate);
 
-                taskSync.addUserTask(taskItem);
+                taskChanger.addUserTask(taskItem);
 //                taskViewModel.insert(taskItem);
                 finish();
 

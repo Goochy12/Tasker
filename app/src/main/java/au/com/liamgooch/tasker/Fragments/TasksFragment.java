@@ -80,7 +80,7 @@ public class TasksFragment extends Fragment {
             public void onClick(View view) {
                 Intent launchAddTask = new Intent(view.getContext(), AddTaskActivity.class);
                 launchAddTask.putExtra(ACCOUNT_TYPE,accountType);
-//                launchAddTask.putExtra(ACCOUNT_UID,uid);
+                launchAddTask.putExtra(ACCOUNT_UID,uid);
                 launchAddTask.putExtra("tasksync", (Parcelable) taskSync);
                 startActivity(launchAddTask);
             }

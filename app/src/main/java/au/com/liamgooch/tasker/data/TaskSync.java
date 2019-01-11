@@ -3,6 +3,7 @@ package au.com.liamgooch.tasker.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -14,7 +15,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import androidx.room.Database;
 import au.com.liamgooch.tasker.Activities.Dashboard;
 import au.com.liamgooch.tasker.Fragments.GroupsFragment;
 import au.com.liamgooch.tasker.Fragments.ProjectsFragment;
@@ -22,7 +25,7 @@ import au.com.liamgooch.tasker.Fragments.TasksFragment;
 
 import static au.com.liamgooch.tasker.Activities.StartActivity.TAG;
 
-public class TaskSync implements Parcelable {
+public class TaskSync {
 
     //strings
     public static final String TASK_NAME = "task_name";
@@ -103,22 +106,6 @@ public class TaskSync implements Parcelable {
 
     }
 
-    protected TaskSync(Parcel in) {
-        uid = in.readString();
-    }
-
-    public static final Creator<TaskSync> CREATOR = new Creator<TaskSync>() {
-        @Override
-        public TaskSync createFromParcel(Parcel in) {
-            return new TaskSync(in);
-        }
-
-        @Override
-        public TaskSync[] newArray(int size) {
-            return new TaskSync[size];
-        }
-    };
-
     public void syncTasks(){
         Log.i(TAG, "syncTasks: Initiated");
         tasksReference.addValueEventListener(user_tasks_value_event_listener);
@@ -150,8 +137,8 @@ public class TaskSync implements Parcelable {
                     String group = (String) eachTask.child(TASK_GROUP).getValue();
                     String groupMembers = (String) eachTask.child(TASK_GROUP_MEMBERS).getValue();
 
-                    String taskChecked = (String) eachTask.child(TASK_CHECKED).getValue();
-                    String reminder = (String) eachTask.child(TASK_REMINDER).getValue();
+                    String taskChecked = Objects.requireNonNull(eachTask.child(TASK_CHECKED).getValue()).toString();
+                    String reminder = Objects.requireNonNull(eachTask.child(TASK_REMINDER).getValue()).toString();
 
                     String timeDateString = (String) eachTask.child(TASK_TIME_DATE_STRING).getValue();
 
@@ -265,34 +252,4 @@ public class TaskSync implements Parcelable {
         return itemList;
     }
 
-    public void addUserTask(TaskItem taskItem){
-        DatabaseReference databaseReference = tasksReference.child("first");
-        
-        databaseReference.child(TASK_NAME).setValue(taskItem.getTaskName());
-        databaseReference.child(TASK_DESC).setValue(taskItem.getTaskDesc());
-
-        databaseReference.child(TASK_START_DATE).setValue(taskItem.getStartDate());
-        databaseReference.child(TASK_START_TIME).setValue(taskItem.getStartTime());
-        databaseReference.child(TASK_END_DATE).setValue(taskItem.getEndDate());
-        databaseReference.child(TASK_END_TIME).setValue(taskItem.getEndTime());
-
-        databaseReference.child(TASK_PROJECT).setValue(taskItem.getProject());
-        databaseReference.child(TASK_GROUP).setValue(taskItem.getTask_group());
-        databaseReference.child(TASK_GROUP_MEMBERS).setValue(taskItem.getGroupMembers());
-
-        databaseReference.child(TASK_CHECKED).setValue(taskItem.getTaskChecked());
-        databaseReference.child(TASK_REMINDER).setValue(taskItem.getReminder());
-
-        databaseReference.child(TASK_TIME_DATE_STRING).setValue(taskItem.getTimeDateString());
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(uid);
-    }
 }
