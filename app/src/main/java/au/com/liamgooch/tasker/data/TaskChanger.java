@@ -68,32 +68,39 @@ public class TaskChanger {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i(TAG, "onDataChange: Getting single data");
 
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
                 String name = (String) dataSnapshot.child(TASK_NAME).getValue();
-                String desc = (String) dataSnapshot.child(TASK_DESC).getValue();
+                    Log.i(TAG, "onDataChange: ");
+                }
 
-                String startDate = (String) dataSnapshot.child(TASK_START_DATE).getValue();
-                String startTime = (String) dataSnapshot.child(TASK_START_TIME).getValue();
-                String endDate = (String) dataSnapshot.child(TASK_END_DATE).getValue();
-                String endTime = (String) dataSnapshot.child(TASK_END_TIME).getValue();
-
-                String project = (String) dataSnapshot.child(TASK_PROJECT).getValue();
-                String group = (String) dataSnapshot.child(TASK_GROUP).getValue();
-                String groupMembers = (String) dataSnapshot.child(TASK_GROUP_MEMBERS).getValue();
-
-                int taskChecked = Integer.parseInt(Objects.requireNonNull(dataSnapshot.child(TASK_CHECKED).getValue()).toString());
-                int reminder = Integer.parseInt(Objects.requireNonNull(dataSnapshot.child(TASK_REMINDER).getValue()).toString());
-
-                String timeDateString = (String) dataSnapshot.child(TASK_TIME_DATE_STRING).getValue();
-
-                taskItem[0] = new TaskItem(id,name,desc,startDate,startTime,endDate,endTime,project,group,groupMembers,
-                        taskChecked,reminder,timeDateString);
+//                Log.i(TAG, "onDataChange: Getting single data");
+//
+//                String name = (String) dataSnapshot.child(TASK_NAME).getValue();
+//                String desc = (String) dataSnapshot.child(TASK_DESC).getValue();
+//
+//                String startDate = (String) dataSnapshot.child(TASK_START_DATE).getValue();
+//                String startTime = (String) dataSnapshot.child(TASK_START_TIME).getValue();
+//                String endDate = (String) dataSnapshot.child(TASK_END_DATE).getValue();
+//                String endTime = (String) dataSnapshot.child(TASK_END_TIME).getValue();
+//
+//                String project = (String) dataSnapshot.child(TASK_PROJECT).getValue();
+//                String group = (String) dataSnapshot.child(TASK_GROUP).getValue();
+//                String groupMembers = (String) dataSnapshot.child(TASK_GROUP_MEMBERS).getValue();
+//
+//                int taskChecked = Integer.parseInt(Objects.requireNonNull(dataSnapshot.child(TASK_CHECKED).getValue()).toString());
+//                int reminder = Integer.parseInt(Objects.requireNonNull(dataSnapshot.child(TASK_REMINDER).getValue()).toString());
+//
+//                String timeDateString = (String) dataSnapshot.child(TASK_TIME_DATE_STRING).getValue();
+//
+//                taskItem[0] = new TaskItem(id,name,desc,startDate,startTime,endDate,endTime,project,group,groupMembers,
+//                        taskChecked,reminder,timeDateString);
 
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Log.i(TAG, databaseError.getMessage());
             }
         });
 
@@ -121,5 +128,55 @@ public class TaskChanger {
         databaseReference.child(TASK_REMINDER).setValue(taskItem.getReminder());
 
         databaseReference.child(TASK_TIME_DATE_STRING).setValue(taskItem.getTimeDateString());
+    }
+
+    public void updateChecked(TaskItem taskItem) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("accounts")
+                .child(uid).child("user_tasks").child(taskItem.getItemID());
+
+        databaseReference.child(TASK_CHECKED).setValue(taskItem.getTaskChecked());
+    }
+
+    public void removeUserAll() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("accounts")
+                .child(uid).child("user_tasks");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot eachTask : dataSnapshot.getChildren()){
+                    String id = eachTask.child(USER_TASK_ID).getValue().toString();
+                    databaseReference.child(id).removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void removeUserSelected() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("accounts")
+                .child(uid).child("user_tasks");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot eachTask : dataSnapshot.getChildren()){
+                    int checked = Integer.parseInt(eachTask.child(TASK_CHECKED).getValue().toString());
+                    if (checked == 1){
+                        String id = eachTask.child(USER_TASK_ID).getValue().toString();
+                        databaseReference.child(id).removeValue();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

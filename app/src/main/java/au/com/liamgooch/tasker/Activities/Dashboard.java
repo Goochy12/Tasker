@@ -22,6 +22,7 @@ import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.data.TaskItem;
 import au.com.liamgooch.tasker.data.TaskSync;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -38,6 +39,7 @@ import java.util.List;
 
 import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_TYPE;
 import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
+import static au.com.liamgooch.tasker.Activities.StartActivity.TAG;
 import static au.com.liamgooch.tasker.Activities.StartActivity.DATABASE_VERSION;
 
 public class Dashboard extends AppCompatActivity {
@@ -94,6 +96,7 @@ public class Dashboard extends AppCompatActivity {
         Intent loginIntent = getIntent();
         account_type = loginIntent.getStringExtra(ACCOUNT_TYPE);
         uid = loginIntent.getStringExtra(ACCOUNT_UID);
+        Log.i(TAG, "onCreate: " + account_type);
 
 
         if (account_type.equals("admin")){
@@ -108,9 +111,8 @@ public class Dashboard extends AppCompatActivity {
         groupsItem = bottomNavigation.getMenu().getItem(2);
 
 
-        TaskSync taskSync = new TaskSync(tasksFrag,projectsFrag,groupsFrag,uid,this);
 
-        tasksFrag = new TasksFragment(user_tasks,project_tasks,taskSync,uid,account_type);
+        tasksFrag = new TasksFragment(user_tasks,project_tasks,uid,account_type);
         projectsFrag = new ProjectsFragment();
         groupsFrag = new GroupsFragment();
 
@@ -121,6 +123,7 @@ public class Dashboard extends AppCompatActivity {
         vpPager.setOffscreenPageLimit(3);
         vpPager.addOnPageChangeListener(mPageChangeListener);
 
+        TaskSync taskSync = new TaskSync(tasksFrag,projectsFrag,groupsFrag,uid,this);
 
         //load task data
 
@@ -151,42 +154,42 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        this.dashAppBar = menu;
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        switch (item.getItemId()){
-            case R.id.action_clear_selected:
-//                taskViewModel.deleteCheckedTasks();
-
-                return true;
-            case R.id.action_clear_all:
-//                taskViewModel.deleteAllTasks();
-                return true;
-            case R.id.action_settings:
-                return true;
-            case R.id.action_logout:
-                mAuth.signOut();
-
-                Intent loginIntent = new Intent(this,Login.class);
-                startActivity(loginIntent);
-
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        this.dashAppBar = menu;
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//
+//        switch (item.getItemId()){
+//            case R.id.action_clear_selected:
+////                taskViewModel.deleteCheckedTasks();
+//
+//                return true;
+//            case R.id.action_clear_all:
+////                taskViewModel.deleteAllTasks();
+//                return true;
+//            case R.id.action_settings:
+//                return true;
+//            case R.id.action_logout:
+//                mAuth.signOut();
+//
+//                Intent loginIntent = new Intent(this,Login.class);
+//                startActivity(loginIntent);
+//
+//                finish();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     private ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override

@@ -3,6 +3,7 @@ package au.com.liamgooch.tasker.Activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -66,11 +67,12 @@ public class StartActivity extends AppCompatActivity {
 
     private void openDashboard() {
         Intent dashBoard = new Intent(this,Dashboard.class);
-        sharedPreferences.edit().putBoolean("logged_in",true).apply();
-        sharedPreferences.edit().putString("account_type",accountType).apply();
-        sharedPreferences.edit().putString("uid",uid).apply();
+//        sharedPreferences.edit().putBoolean("logged_in",true).apply();
+//        sharedPreferences.edit().putString("account_type",accountType).apply();
+//        sharedPreferences.edit().putString("uid",uid).apply();
 
         dashBoard.putExtra(ACCOUNT_TYPE,accountType);
+        Log.i(TAG, "openDashboard: " + accountType);
         dashBoard.putExtra(ACCOUNT_UID,uid);
         startActivity(dashBoard);
         finish();
@@ -84,19 +86,18 @@ public class StartActivity extends AppCompatActivity {
 
 
     private String getAccountType(){
-        DatabaseReference databaseReference = userReference.child(uid);
+        Log.i(TAG, "getAccountType: " + uid);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("accounts").child(uid);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                try{
-                    accountType = dataSnapshot.child("type").getValue().toString();
-                }catch (NullPointerException e){
-
-                }
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.i(TAG, "onDataChange: ");
+                accountType = dataSnapshot.child("type").getValue().toString();
+                Log.i(TAG, "onDataChange: " + accountType);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

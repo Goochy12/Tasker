@@ -22,6 +22,7 @@ import java.util.List;
 import au.com.liamgooch.tasker.Activities.EditTaskActivity;
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.TaskViewModel;
+import au.com.liamgooch.tasker.data.TaskChanger;
 import au.com.liamgooch.tasker.data.TaskItem;
 
 import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
@@ -75,6 +76,8 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
             holder.timeText.setText("Complete!");
         }
 
+        TaskChanger taskChanger = new TaskChanger(uid);
+
 
 
 //        if (taskItems.get(position).getReminder() == 0){
@@ -88,11 +91,14 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
                 //taskViewModel.setTaskChecked(taskItems.get(position));
                 if (holder.taskCheckbox.isChecked()) {
                     taskItems.get(position).setTaskChecked(1);
+                    taskChanger.updateChecked(taskItems.get(position));
                 } else {
                     taskItems.get(position).setTaskChecked(0);
+                    taskChanger.updateChecked(taskItems.get(position));
 
                 }
-                taskViewModel.setTaskChecked(taskItems.get(position));
+//                taskViewModel.setTaskChecked(taskItems.get(position));
+                notifyDataSetChanged();
             }
         });
 
@@ -105,7 +111,7 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
                 editActivityLauncher.putExtra(TASK_ID,id);
                 editActivityLauncher.putExtra(ACCOUNT_UID,uid);
 
-                context.startActivity(editActivityLauncher);
+//                context.startActivity(editActivityLauncher);
             }
         });
     }

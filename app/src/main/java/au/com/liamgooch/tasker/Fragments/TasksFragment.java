@@ -7,16 +7,21 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,12 +31,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import au.com.liamgooch.tasker.Activities.AddTaskActivity;
+import au.com.liamgooch.tasker.Activities.Login;
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.Fragments.adapters.TaskRecyclerAdapter;
+import au.com.liamgooch.tasker.data.TaskChanger;
 import au.com.liamgooch.tasker.data.TaskItem;
 import au.com.liamgooch.tasker.data.TaskSync;
 
@@ -52,13 +60,16 @@ public class TasksFragment extends Fragment {
     private String accountType;
     private TextView textView;
 
+    private FirebaseAuth mAuth;
+    private Menu dashAppBar;
+    private TaskChanger taskChanger;
+
     private ArrayList<ArrayList<String>> all_tasks_list;
 
     private TaskSync taskSync;
 
     @SuppressLint("ValidFragment")
-    public TasksFragment(List<TaskItem> userTasks, List<TaskItem> projectTasks, TaskSync taskSync, String uid, String accountType){
-        this.taskSync = taskSync;
+    public TasksFragment(List<TaskItem> userTasks, List<TaskItem> projectTasks, String uid, String accountType){
         this.uid = uid;
         this.accountType = accountType;
     }
@@ -67,12 +78,14 @@ public class TasksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_tasks, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
 
         FloatingActionButton addTaskButton = (FloatingActionButton) view.findViewById(R.id.add_task_fab);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -98,5 +111,44 @@ public class TasksFragment extends Fragment {
 
         taskRecyclerAdapter = new TaskRecyclerAdapter(view.getContext(),uid);
         taskRecycler.setAdapter(taskRecyclerAdapter);
+
+        taskChanger = new TaskChanger(uid);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_main,menu);
+        this.dashAppBar = menu;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+
+        switch (item.getItemId()){
+            case R.id.action_clear_selected:
+//                taskViewModel.deleteCheckedTasks();
+                taskChanger.removeUserSelected();
+                return true;
+            case R.id.action_clear_all:
+//                taskViewModel.deleteAllTasks();
+                taskChanger.removeUserAll();
+                return true;
+            case R.id.action_settings:
+                return true;
+            case R.id.action_logout:
+                mAuth.signOut();
+
+                Intent loginIntent = new Intent(getContext(),Login.class);
+                startActivity(loginIntent);
+
+                Objects.requireNonNull(getActivity()).finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

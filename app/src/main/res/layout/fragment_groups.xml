@@ -11,7 +11,7 @@
         android:id="@+id/test_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Groups Fragment" />
+        android:text="Groups Coming Soon" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_group_fab"

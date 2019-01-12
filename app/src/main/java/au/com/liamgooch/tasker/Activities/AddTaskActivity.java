@@ -251,9 +251,6 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         taskTimeMinute = c.get(Calendar.MINUTE);
     }
 
-    public void storeTaskValues(){
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void validateTimeSet(){
         Calendar c = Calendar.getInstance();
