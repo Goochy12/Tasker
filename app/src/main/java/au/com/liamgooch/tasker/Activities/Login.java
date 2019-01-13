@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -28,9 +27,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_TYPE;
-import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
-import static au.com.liamgooch.tasker.Activities.StartActivity.TAG;
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNTS;
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNT_TYPE;
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNT_UID;
+import static au.com.liamgooch.tasker.data.String_Values.EMAIL;
+import static au.com.liamgooch.tasker.data.String_Values.LOGIN;
+import static au.com.liamgooch.tasker.data.String_Values.PASSWORD;
+import static au.com.liamgooch.tasker.data.String_Values.TAG;
+import static au.com.liamgooch.tasker.data.String_Values.TYPE;
 
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.Fragments.adapters.TaskRecyclerAdapter;
@@ -90,7 +94,7 @@ public class Login extends AppCompatActivity {
         //get the context of this activity
         context = this;
         //get the shared preferences for the login data
-        sharedPreferences = getSharedPreferences("login",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(LOGIN,MODE_PRIVATE);
 //        String prev_email = "";
 //        String prev_pass = "";
 //        sharedPreferences.getString("prev_email",prev_email);
@@ -106,7 +110,7 @@ public class Login extends AppCompatActivity {
         //get user database
         database = FirebaseDatabase.getInstance();
         try{
-            userReference = database.getReference("accounts");
+            userReference = database.getReference(ACCOUNTS);
         }catch (NullPointerException e){
 
         }
@@ -170,8 +174,8 @@ public class Login extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1){
             if (resultCode == RESULT_OK){
-                String emailText = data.getStringExtra("email");
-                String passwordText = data.getStringExtra("password");
+                String emailText = data.getStringExtra(EMAIL);
+                String passwordText = data.getStringExtra(PASSWORD);
                 emailBox.setText(emailText);
                 passwordBox.setText(passwordText);
             }
@@ -182,12 +186,14 @@ public class Login extends AppCompatActivity {
     private void openDashboard(){
         Intent dashBoard = new Intent(this,Dashboard.class);
         sharedPreferences.edit().putBoolean("logged_in",true).apply();
-        sharedPreferences.edit().putString("account_type",accountType).apply();
-        sharedPreferences.edit().putString("uid",uid).apply();
+        sharedPreferences.edit().putString(ACCOUNT_TYPE,accountType).apply();
+        sharedPreferences.edit().putString(ACCOUNT_UID,uid).apply();
 
 //        sharedPreferences.edit().putString("prev_email",emailBox.getText().toString());
 //        sharedPreferences.edit().putString("prev_pass",passwordBox.getText().toString());
 
+        Log.i(TAG, "openDashboard: " + accountType);
+        Log.i(TAG, "openDashboard: " + uid);
         dashBoard.putExtra(ACCOUNT_TYPE,accountType);
         dashBoard.putExtra(ACCOUNT_UID,uid);
         startActivity(dashBoard);
@@ -196,12 +202,12 @@ public class Login extends AppCompatActivity {
     }
 
     private String getAccountType(){
-        DatabaseReference databaseReference = userReference.child(uid);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("accounts").child(uid);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 try{
-                    accountType = dataSnapshot.child("type").getValue().toString();
+                    accountType = dataSnapshot.child(TYPE).getValue().toString();
                 }catch (NullPointerException e){
 
                 }

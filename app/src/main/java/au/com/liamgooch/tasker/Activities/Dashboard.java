@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -19,6 +17,7 @@ import au.com.liamgooch.tasker.Fragments.ProjectsFragment;
 import au.com.liamgooch.tasker.Fragments.TasksFragment;
 import au.com.liamgooch.tasker.Fragments.adapters.DashboardViewPagerAdapter;
 import au.com.liamgooch.tasker.R;
+import au.com.liamgooch.tasker.data.Account_Type_Enum;
 import au.com.liamgooch.tasker.data.TaskItem;
 import au.com.liamgooch.tasker.data.TaskSync;
 
@@ -28,19 +27,16 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_TYPE;
-import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
-import static au.com.liamgooch.tasker.Activities.StartActivity.TAG;
-import static au.com.liamgooch.tasker.Activities.StartActivity.DATABASE_VERSION;
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNT_TYPE;
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNT_UID;
+import static au.com.liamgooch.tasker.data.String_Values.ADMIN;
+import static au.com.liamgooch.tasker.data.String_Values.TAG;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -73,6 +69,8 @@ public class Dashboard extends AppCompatActivity {
     private List<TaskItem> user_tasks;
     private List<TaskItem> project_tasks;
 
+    private Account_Type_Enum account_type_enum;
+
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -96,13 +94,26 @@ public class Dashboard extends AppCompatActivity {
         Intent loginIntent = getIntent();
         account_type = loginIntent.getStringExtra(ACCOUNT_TYPE);
         uid = loginIntent.getStringExtra(ACCOUNT_UID);
-        Log.i(TAG, "onCreate: " + account_type);
 
+//        if(account_type.isEmpty()){
+//            Intent error = new Intent(this,Login.class);
+//            startActivity(error);
+//            finish();
+//        }
 
-        if (account_type.equals("admin")){
-            setAdminLayout();
-        }else {
-            setUserLayout();
+        try {
+            if (account_type.equals(ADMIN)){
+                account_type_enum = Account_Type_Enum.ADMIN;
+                setAdminLayout();
+            }else {
+                setUserLayout();
+                account_type_enum = Account_Type_Enum.USER;
+            }
+        }catch (NullPointerException e){
+            Log.i(TAG, "onCreate: error");
+            Intent error = new Intent(this,Login.class);
+            startActivity(error);
+            finish();
         }
 
         //get the items

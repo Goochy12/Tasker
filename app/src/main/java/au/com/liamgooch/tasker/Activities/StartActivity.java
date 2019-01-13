@@ -13,25 +13,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import au.com.liamgooch.tasker.R;
+import au.com.liamgooch.tasker.data.String_Values;
+
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNTS;
+import static au.com.liamgooch.tasker.data.String_Values.TYPE;
 
 public class StartActivity extends AppCompatActivity {
 
-    public static final String TAG = "TaskerTAG";
-    public static final String ACCOUNT_TYPE = "account_type";
-    public static final String ACCOUNT_UID = "account_uid";
-    public static final String SHARED_PREF = "account_shared_pref";
-    public static final String DATABASE_VERSION = "database_shared_pref_version";
-
+    //firebase variables
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private FirebaseDatabase database;
     private DatabaseReference userReference;
     private String uid;
     private String accountType;
+
+    private boolean wait = true;
 
     private SharedPreferences sharedPreferences;
 
@@ -41,11 +41,12 @@ public class StartActivity extends AppCompatActivity {
         setTheme(R.style.SplashStyle);
         super.onCreate(savedInstanceState);
 
+        //get an authentication instance
         mAuth = FirebaseAuth.getInstance();
         //get user database
         database = FirebaseDatabase.getInstance();
         try{
-            userReference = database.getReference("accounts");
+            userReference = database.getReference(ACCOUNTS);
         }catch (NullPointerException e){
 
         }
@@ -54,7 +55,7 @@ public class StartActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null){
             uid = currentUser.getUid();
-            accountType = getAccountType();
+            getAccountType();
 
             //open the dashboard
             openDashboard();
@@ -71,9 +72,11 @@ public class StartActivity extends AppCompatActivity {
 //        sharedPreferences.edit().putString("account_type",accountType).apply();
 //        sharedPreferences.edit().putString("uid",uid).apply();
 
-        dashBoard.putExtra(ACCOUNT_TYPE,accountType);
-        Log.i(TAG, "openDashboard: " + accountType);
-        dashBoard.putExtra(ACCOUNT_UID,uid);
+        dashBoard.putExtra(String_Values.ACCOUNT_TYPE,accountType);
+        dashBoard.putExtra(String_Values.ACCOUNT_UID,uid);
+
+//        dashBoard.putExtra(ACCOUNT_TYPE,"admin");
+//        dashBoard.putExtra(ACCOUNT_UID,"testadmin");
         startActivity(dashBoard);
         finish();
 
@@ -85,24 +88,25 @@ public class StartActivity extends AppCompatActivity {
     }
 
 
-    private String getAccountType(){
-        Log.i(TAG, "getAccountType: " + uid);
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("accounts").child(uid);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i(TAG, "onDataChange: ");
-                accountType = dataSnapshot.child("type").getValue().toString();
-                Log.i(TAG, "onDataChange: " + accountType);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        return accountType;
+    private void getAccountType(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = database.getReference(ACCOUNTS).child(uid);
+        Log.i(String_Values.TAG, "getAccountType: " + uid);
+        wait = true;
+        databaseReference.addListenerForSingleValueEvent(get_account_listener);
     }
+
+    ValueEventListener get_account_listener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            accountType = dataSnapshot.child(TYPE).getValue().toString();
+//            wait = false;
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            Log.i(String_Values.TAG, "onCancelled: " + databaseError.getMessage());
+        }
+    };
 
 }

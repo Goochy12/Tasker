@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +24,7 @@ import au.com.liamgooch.tasker.TaskViewModel;
 import au.com.liamgooch.tasker.data.TaskChanger;
 import au.com.liamgooch.tasker.data.TaskItem;
 
-import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
-import static au.com.liamgooch.tasker.Activities.StartActivity.TAG;
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNT_UID;
 
 public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapter.HomeViewHolder> {
 
@@ -73,7 +71,7 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
         }else {
             holder.taskCheckbox.setChecked(true);
             holder.taskText.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.timeText.setText("Complete!");
+            holder.timeText.setText(context.getString(R.string.task_complete));
         }
 
         TaskChanger taskChanger = new TaskChanger(uid);

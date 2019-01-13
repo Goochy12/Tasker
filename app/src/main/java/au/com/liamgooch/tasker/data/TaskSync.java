@@ -1,9 +1,5 @@
 package au.com.liamgooch.tasker.data;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.provider.CalendarContract;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -12,40 +8,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import androidx.room.Database;
 import au.com.liamgooch.tasker.Activities.Dashboard;
 import au.com.liamgooch.tasker.Fragments.GroupsFragment;
 import au.com.liamgooch.tasker.Fragments.ProjectsFragment;
 import au.com.liamgooch.tasker.Fragments.TasksFragment;
 
-import static au.com.liamgooch.tasker.Activities.StartActivity.TAG;
-import static au.com.liamgooch.tasker.Fragments.adapters.TaskRecyclerAdapter.TASK_ID;
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNTS;
+import static au.com.liamgooch.tasker.data.String_Values.GROUPS;
+import static au.com.liamgooch.tasker.data.String_Values.GROUP_MEMBERS;
+import static au.com.liamgooch.tasker.data.String_Values.PROJECTS;
+import static au.com.liamgooch.tasker.data.String_Values.PROJECT_TASKS;
+import static au.com.liamgooch.tasker.data.String_Values.TAG;
+import static au.com.liamgooch.tasker.data.String_Values.USER_TASKS;
 
 public class TaskSync {
-
-    //strings
-    public static final String USER_TASK_ID = "task_id";
-    public static final String TASK_NAME = "task_name";
-    public static final String TASK_DESC = "task_desc";
-
-    public static final String TASK_START_DATE = "task_start_date";
-    public static final String TASK_START_TIME = "task_start_time";
-    public static final String TASK_END_DATE = "task_end_date";
-    public static final String TASK_END_TIME = "task_end_time";
-
-    public static final String TASK_PROJECT = "task_project";
-    public static final String TASK_GROUP = "task_group";
-    public static final String TASK_GROUP_MEMBERS = "task_group_members";
-
-    public static final String TASK_CHECKED = "task_checked";
-    public static final String TASK_REMINDER = "task_reminder";
-
-    public static final String TASK_TIME_DATE_STRING = "task_time_date_string";
 
 
     private TasksFragment tasksFragment;
@@ -74,33 +54,33 @@ public class TaskSync {
         this.dashboard = dashboard;
 
         database = FirebaseDatabase.getInstance();
-        DatabaseReference dbR = database.getReference("accounts").child(uid);
+        DatabaseReference dbR = database.getReference(ACCOUNTS).child(uid);
         try{
-            tasksReference = dbR.child("user_tasks");
+            tasksReference = dbR.child(USER_TASKS);
         }catch (NullPointerException ignore){
             Log.i(TAG, "TaskSync: Null Pointer getting user tasks");
         }
 
         try{
-            projectsReference = dbR.child("projects");
+            projectsReference = dbR.child(PROJECTS);
         }catch (NullPointerException ignore){
             Log.i(TAG, "TaskSync: Null Pointer getting projects");
         }
 
         try{
-            projectTasksReference = dbR.child("projects").child("projects_tasks");
+            projectTasksReference = dbR.child(PROJECTS).child(PROJECT_TASKS);
         }catch (NullPointerException ignore){
             Log.i(TAG, "TaskSync: Null Pointer getting project tasks");
         }
 
         try{
-            groupsReference = dbR.child("groups");
+            groupsReference = dbR.child(GROUPS);
         }catch (NullPointerException ignore){
             Log.i(TAG, "TaskSync: Null Pointer getting groups");
         }
 
         try{
-            groupMembersReference = dbR.child("groups").child("group_members");
+            groupMembersReference = dbR.child(GROUPS).child(GROUP_MEMBERS);
         }catch (NullPointerException ignore){
             Log.i(TAG, "TaskSync: Null Pointer getting group members");
         }
@@ -124,23 +104,23 @@ public class TaskSync {
                 ArrayList<String> list = new ArrayList<>();
                 //get Task information
                 try {
-                    String id = (String) eachTask.child(USER_TASK_ID).getValue();
-                    String name = (String) eachTask.child(TASK_NAME).getValue();
-                    String desc = (String) eachTask.child(TASK_DESC).getValue();
+                    String id = (String) eachTask.child(String_Values.USER_TASK_ID).getValue();
+                    String name = (String) eachTask.child(String_Values.TASK_NAME).getValue();
+                    String desc = (String) eachTask.child(String_Values.TASK_DESC).getValue();
 
-                    String startDate = (String) eachTask.child(TASK_START_DATE).getValue();
-                    String startTime = (String) eachTask.child(TASK_START_TIME).getValue();
-                    String endDate = (String) eachTask.child(TASK_END_DATE).getValue();
-                    String endTime = (String) eachTask.child(TASK_END_TIME).getValue();
+                    String startDate = (String) eachTask.child(String_Values.TASK_START_DATE).getValue();
+                    String startTime = (String) eachTask.child(String_Values.TASK_START_TIME).getValue();
+                    String endDate = (String) eachTask.child(String_Values.TASK_END_DATE).getValue();
+                    String endTime = (String) eachTask.child(String_Values.TASK_END_TIME).getValue();
 
-                    String project = (String) eachTask.child(TASK_PROJECT).getValue();
-                    String group = (String) eachTask.child(TASK_GROUP).getValue();
-                    String groupMembers = (String) eachTask.child(TASK_GROUP_MEMBERS).getValue();
+                    String project = (String) eachTask.child(String_Values.TASK_PROJECT).getValue();
+                    String group = (String) eachTask.child(String_Values.TASK_GROUP).getValue();
+                    String groupMembers = (String) eachTask.child(String_Values.TASK_GROUP_MEMBERS).getValue();
 
-                    String taskChecked = Objects.requireNonNull(eachTask.child(TASK_CHECKED).getValue()).toString();
-                    String reminder = Objects.requireNonNull(eachTask.child(TASK_REMINDER).getValue()).toString();
+                    String taskChecked = Objects.requireNonNull(eachTask.child(String_Values.TASK_CHECKED).getValue()).toString();
+                    String reminder = Objects.requireNonNull(eachTask.child(String_Values.TASK_REMINDER).getValue()).toString();
 
-                    String timeDateString = (String) eachTask.child(TASK_TIME_DATE_STRING).getValue();
+                    String timeDateString = (String) eachTask.child(String_Values.TASK_TIME_DATE_STRING).getValue();
 
                     list.add(id);
                     list.add(name);

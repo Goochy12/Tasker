@@ -22,19 +22,14 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.TaskViewModel;
 import au.com.liamgooch.tasker.data.TaskChanger;
 import au.com.liamgooch.tasker.data.TaskItem;
-import au.com.liamgooch.tasker.data.TaskSync;
 
-import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_TYPE;
-import static au.com.liamgooch.tasker.Activities.StartActivity.ACCOUNT_UID;
-import static au.com.liamgooch.tasker.data.TaskSync.TASK_NAME;
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNT_TYPE;
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNT_UID;
+import static au.com.liamgooch.tasker.data.String_Values.ADMIN;
 
 public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -99,7 +94,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         });
 
         Button addMemberButton = (Button) findViewById(R.id.addGroupMembersButton);
-        if (accountType.equals("admin")){
+        if (accountType.equals(ADMIN)){
             addMemberButton.setEnabled(true);
         }else{
             addMemberButton.setEnabled(false);

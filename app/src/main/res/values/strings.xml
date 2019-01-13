@@ -34,5 +34,6 @@
     <string name="projects_string">Projects</string>
     <string name="groups_string">Groups</string>
     <string name="add_members">Add Members</string>
+    <string name="task_complete">Complete!</string>
 
 </resources>

@@ -1,12 +1,5 @@
 package au.com.liamgooch.tasker.Fragments.adapters;
 
-import android.util.Log;
-import android.widget.ProgressBar;
-
-import com.google.android.gms.tasks.Task;
-
-import java.util.HashMap;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -14,7 +7,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import au.com.liamgooch.tasker.Fragments.GroupsFragment;
 import au.com.liamgooch.tasker.Fragments.ProjectsFragment;
 import au.com.liamgooch.tasker.Fragments.TasksFragment;
-import static au.com.liamgooch.tasker.Activities.StartActivity.TAG;
 
 public class DashboardViewPagerAdapter extends FragmentPagerAdapter {
 

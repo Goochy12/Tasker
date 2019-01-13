@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import au.com.liamgooch.tasker.R;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,8 +22,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import static au.com.liamgooch.tasker.Activities.StartActivity.SHARED_PREF;
-import static au.com.liamgooch.tasker.Activities.StartActivity.TAG;
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNTS;
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNT_UID;
+import static au.com.liamgooch.tasker.data.String_Values.ADMIN;
+import static au.com.liamgooch.tasker.data.String_Values.PASSWORD;
+import static au.com.liamgooch.tasker.data.String_Values.TAG;
+import static au.com.liamgooch.tasker.data.String_Values.TYPE;
+import static au.com.liamgooch.tasker.data.String_Values.USER;
+import static au.com.liamgooch.tasker.data.String_Values.EMAIL;
+import static au.com.liamgooch.tasker.data.String_Values.NAME;
+import static au.com.liamgooch.tasker.data.String_Values.TASKS_DB;
+import static au.com.liamgooch.tasker.data.String_Values.VERIFIED;
+import static au.com.liamgooch.tasker.data.String_Values.VERSION;
 
 import java.util.ArrayList;
 
@@ -68,7 +77,7 @@ public class CreateAccount extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        userReference = database.getReference("accounts");
+        userReference = database.getReference(ACCOUNTS);
 
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,13 +117,13 @@ public class CreateAccount extends AppCompatActivity {
         DatabaseReference currentUserDB = userReference.child(user.getUid());
 
         String accountType = getAccountType();
-        currentUserDB.child("type").setValue(accountType);
-        currentUserDB.child("email").setValue(user.getEmail());
-        currentUserDB.child("name").setValue(fullName);
-        currentUserDB.child("verified").setValue(0);
-        currentUserDB.child("uid").setValue(user.getUid());
+        currentUserDB.child(TYPE).setValue(accountType);
+        currentUserDB.child(EMAIL).setValue(user.getEmail());
+        currentUserDB.child(NAME).setValue(fullName);
+        currentUserDB.child(VERIFIED).setValue(0);
+        currentUserDB.child(ACCOUNT_UID).setValue(user.getUid());
 
-        currentUserDB.child("tasks_db").child("version").setValue(0);
+        currentUserDB.child(TASKS_DB).child(VERSION).setValue(0);
 
 //        SharedPreferences sharedPreferences;
 //        sharedPreferences.edit()
@@ -123,9 +132,9 @@ public class CreateAccount extends AppCompatActivity {
     private String getAccountType() {
         String account = "";
         if (accountTypeSpinner.getSelectedItemPosition() == 0){
-            account = "user";
+            account = USER;
         }else {
-            account = "admin";
+            account = ADMIN;
         }
         return account;
     }
@@ -135,8 +144,8 @@ public class CreateAccount extends AppCompatActivity {
         String password = passwordView.getText().toString();
 
         Intent toLogin = new Intent(this,Login.class);
-        toLogin.putExtra("email",email);
-        toLogin.putExtra("password",password);
+        toLogin.putExtra(EMAIL,email);
+        toLogin.putExtra(PASSWORD,password);
 
         setResult(RESULT_OK,toLogin);
         finish();
