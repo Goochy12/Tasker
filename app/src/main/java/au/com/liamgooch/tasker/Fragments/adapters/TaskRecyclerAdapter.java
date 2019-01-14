@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.Collections;
@@ -37,12 +38,17 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
     private Context context;
 
     private String uid;
+    private ProgressBar allTasksProgressBar;
+
+    private TextView noTasksTextView;
 
     //constructor
-    public TaskRecyclerAdapter(Context context, String uid){
+    public TaskRecyclerAdapter(Context context, String uid, ProgressBar allTasksProgressBar, TextView noTasksTextView){
         //layoutInflater = LayoutInflater.from(context);
         this.context = context;
         this.uid = uid;
+        this.allTasksProgressBar = allTasksProgressBar;
+        this.noTasksTextView = noTasksTextView;
     }
 
     //create views
@@ -60,6 +66,8 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position){
+
+        allTasksProgressBar.setVisibility(View.GONE);
 
         holder.taskText.setText(taskItems.get(position).getTaskName());
         holder.timeText.setText(taskItems.get(position).getTimeDateString());
@@ -109,7 +117,7 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
                 editActivityLauncher.putExtra(TASK_ID,id);
                 editActivityLauncher.putExtra(ACCOUNT_UID,uid);
 
-//                context.startActivity(editActivityLauncher);
+                context.startActivity(editActivityLauncher);
             }
         });
     }
@@ -121,6 +129,12 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
 
     public void setTasks(List<TaskItem> taskItems){
         this.taskItems = taskItems;
+        allTasksProgressBar.setVisibility(View.GONE);
+        if (taskItems.isEmpty()){
+            noTasksTextView.setVisibility(View.VISIBLE);
+        }else {
+            noTasksTextView.setVisibility(View.GONE);
+        }
         notifyDataSetChanged();
     }
 

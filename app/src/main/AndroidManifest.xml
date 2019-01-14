@@ -33,7 +33,8 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name="au.com.liamgooch.tasker.Activities.EditTaskActivity"
-            tools:ignore="InnerclassSeparator" />
+            tools:ignore="InnerclassSeparator"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name="au.com.liamgooch.tasker.Activities.CreateAccount"
             tools:ignore="InnerclassSeparator" />
         <activity

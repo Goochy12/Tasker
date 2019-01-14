@@ -1,5 +1,6 @@
 package au.com.liamgooch.tasker.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ public class StartActivity extends AppCompatActivity {
     private String uid;
     private String accountType;
 
-    private boolean wait = true;
+    private Context context;
 
     private SharedPreferences sharedPreferences;
 
@@ -40,6 +41,9 @@ public class StartActivity extends AppCompatActivity {
         //set splash theme
         setTheme(R.style.SplashStyle);
         super.onCreate(savedInstanceState);
+
+        //get the context
+        this.context = this;
 
         //get an authentication instance
         mAuth = FirebaseAuth.getInstance();
@@ -55,7 +59,6 @@ public class StartActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null){
             uid = currentUser.getUid();
-            getAccountType();
 
             //open the dashboard
             openDashboard();
@@ -67,12 +70,12 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void openDashboard() {
+
         Intent dashBoard = new Intent(this,Dashboard.class);
 //        sharedPreferences.edit().putBoolean("logged_in",true).apply();
 //        sharedPreferences.edit().putString("account_type",accountType).apply();
 //        sharedPreferences.edit().putString("uid",uid).apply();
 
-        dashBoard.putExtra(String_Values.ACCOUNT_TYPE,accountType);
         dashBoard.putExtra(String_Values.ACCOUNT_UID,uid);
 
 //        dashBoard.putExtra(ACCOUNT_TYPE,"admin");
@@ -86,27 +89,4 @@ public class StartActivity extends AppCompatActivity {
         Intent loginIntent = new Intent(this,Login.class);
         startActivity(loginIntent);
     }
-
-
-    private void getAccountType(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference(ACCOUNTS).child(uid);
-        Log.i(String_Values.TAG, "getAccountType: " + uid);
-        wait = true;
-        databaseReference.addListenerForSingleValueEvent(get_account_listener);
-    }
-
-    ValueEventListener get_account_listener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            accountType = dataSnapshot.child(TYPE).getValue().toString();
-//            wait = false;
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            Log.i(String_Values.TAG, "onCancelled: " + databaseError.getMessage());
-        }
-    };
-
 }

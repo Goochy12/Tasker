@@ -29,13 +29,11 @@ public class GroupsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView tv = (TextView) view.findViewById(R.id.test_text);
         FloatingActionButton addGroupButton = (FloatingActionButton) view.findViewById(R.id.add_group_fab);
         addGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                tv.setVisibility(View.INVISIBLE);
             }
         });
     }

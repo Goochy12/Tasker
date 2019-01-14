@@ -69,6 +69,7 @@ public class Login extends AppCompatActivity {
     private DatabaseReference userReference;
     private String uid;
 
+
 //    private FragmentManager fragmentManager = getSupportFragmentManager();
 ////    private FragmentTransaction fragmentTransaction;
 //    private Fragment addTaskFragment = new AddTaskFragment();
@@ -95,6 +96,10 @@ public class Login extends AppCompatActivity {
         context = this;
         //get the shared preferences for the login data
         sharedPreferences = getSharedPreferences(LOGIN,MODE_PRIVATE);
+        String prev_email = "";
+        prev_email = sharedPreferences.getString("prev_email","");
+
+
 //        String prev_email = "";
 //        String prev_pass = "";
 //        sharedPreferences.getString("prev_email",prev_email);
@@ -123,7 +128,9 @@ public class Login extends AppCompatActivity {
         emailBox = (TextView) findViewById(R.id.enterEmailBox);
         passwordBox = (TextView) findViewById(R.id.enterPasswordBox);
 
-
+        if (prev_email != null){
+            emailBox.setText(prev_email);
+        }
 
         //set a listener for the login button
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +143,10 @@ public class Login extends AppCompatActivity {
                 String email = emailBox.getText().toString();
                 String password = passwordBox.getText().toString();
 
+                loginButton.setEnabled(false);
+
+                if (!email.isEmpty() && !password.isEmpty()) {
+
                     mAuth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -145,19 +156,26 @@ public class Login extends AppCompatActivity {
                                         Log.d(TAG, "signInWithEmail:success");
                                         currentUser = mAuth.getCurrentUser();
                                         uid = currentUser.getUid();
-                                        accountType = getAccountType();
+
                                         openDashboard();
                                     } else {
                                         // If sign in fails, display a message to the user.
+                                        loginButton.setEnabled(true);
                                         Log.w(TAG, "signInWithEmail:failure", task.getException());
                                         Toast.makeText(context, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
+                }else{
+                    loginButton.setEnabled(true);
+                    Toast.makeText(context,"Please enter correct details!",Toast.LENGTH_SHORT).show();
+                }
                 }
             }
         });
+
+        //set login button error checking
 
         //set a listener for create account button
         createAccountButton.setOnClickListener(new View.OnClickListener() {
@@ -185,60 +203,19 @@ public class Login extends AppCompatActivity {
     @SuppressLint("CommitPrefEdits")
     private void openDashboard(){
         Intent dashBoard = new Intent(this,Dashboard.class);
-        sharedPreferences.edit().putBoolean("logged_in",true).apply();
-        sharedPreferences.edit().putString(ACCOUNT_TYPE,accountType).apply();
-        sharedPreferences.edit().putString(ACCOUNT_UID,uid).apply();
 
-//        sharedPreferences.edit().putString("prev_email",emailBox.getText().toString());
-//        sharedPreferences.edit().putString("prev_pass",passwordBox.getText().toString());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(ACCOUNT_UID,uid);
+        editor.putString(ACCOUNT_TYPE,accountType);
+        editor.putString("prev_email",emailBox.getText().toString());
+        editor.apply();
 
-        Log.i(TAG, "openDashboard: " + accountType);
-        Log.i(TAG, "openDashboard: " + uid);
-        dashBoard.putExtra(ACCOUNT_TYPE,accountType);
         dashBoard.putExtra(ACCOUNT_UID,uid);
+
         startActivity(dashBoard);
         finish();
 
     }
-
-    private String getAccountType(){
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("accounts").child(uid);
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                try{
-                    accountType = dataSnapshot.child(TYPE).getValue().toString();
-                }catch (NullPointerException e){
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        return accountType;
-    }
-//
-//    //my functions
-//
-//    public void fabOnClick(){
-////        taskViewModel.insert(new TaskItem("New Task","Desc",0));
-//
-//        //launch add task activity
-//        newTask();
-//
-//
-//    }
-//
-//    public void newTask(){
-//        Intent launchAddTask = new Intent(this, AddTaskActivity.class);
-//
-//        startActivity(launchAddTask);
-//    }
-
 
 
 

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,10 +26,12 @@ import android.widget.TimePicker;
 
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.TaskViewModel;
+import au.com.liamgooch.tasker.data.FirebaseCallbacks;
 import au.com.liamgooch.tasker.data.TaskChanger;
 import au.com.liamgooch.tasker.data.TaskItem;
 
 import static au.com.liamgooch.tasker.data.String_Values.ACCOUNT_UID;
+import static au.com.liamgooch.tasker.data.String_Values.TAG;
 import static au.com.liamgooch.tasker.Fragments.adapters.TaskRecyclerAdapter.TASK_ID;
 
 public class EditTaskActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener{
@@ -70,9 +73,18 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
         uid = intent.getStringExtra(ACCOUNT_UID);
 
         TaskChanger taskChanger = new TaskChanger(uid);
-        TaskItem taskItem = taskChanger.getUserTask(taskID);
 
+        taskChanger.getUserTask(taskID, new FirebaseCallbacks() {
+            @Override
+            public TaskItem returnTask(TaskItem taskItem) {
+                fillViews(taskItem, taskChanger);
+                return null;
+            }
+        });
 
+    }
+
+    public void fillViews(TaskItem taskItem, TaskChanger taskChanger){
         taskNameText = (EditText) findViewById(R.id.enterTaskName);
         taskDescriptionText = (EditText) findViewById(R.id.enterDescription);
 
@@ -87,7 +99,7 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
         String dueTime = taskItem.getEndTime();
 
         String[] dueDateList = dueDate.split("/");
-        String[] dueTimeList = dueDate.split(":");
+        String[] dueTimeList = dueTime.split(":");
 
         taskTimeDay = Integer.parseInt(dueDateList[0]);
         taskTimeMonth = Integer.parseInt(dueDateList[1]);
@@ -112,8 +124,8 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
         Button applyButton = (Button) findViewById(R.id.addTaskButton);
 
         //set text
-        applyButton.setText("Apply");
-        editTextView.setText("Edit Task");
+        applyButton.setText(getString(R.string.apply_button_string));
+        editTextView.setText(getString(R.string.edit_task_heading_string));
 
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,9 +141,7 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
             }
         });
 
-
-        Button addTaskButton = (Button) findViewById(R.id.addTaskButton);
-        addTaskButton.setOnClickListener(new View.OnClickListener() {
+        applyButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
@@ -176,9 +186,9 @@ public class EditTaskActivity extends AppCompatActivity implements TimePickerDia
             @Override
             public void afterTextChanged(Editable s) {
                 if (taskNameText.getText().toString().equals("")){
-                    addTaskButton.setEnabled(false);
+                    applyButton.setEnabled(false);
                 }else {
-                    addTaskButton.setEnabled(true);
+                    applyButton.setEnabled(true);
                 }
 
             }

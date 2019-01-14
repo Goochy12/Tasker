@@ -35,5 +35,7 @@
     <string name="groups_string">Groups</string>
     <string name="add_members">Add Members</string>
     <string name="task_complete">Complete!</string>
+    <string name="apply_button_string">Apply</string>
+    <string name="edit_task_heading_string">Edit Task</string>
 
 </resources>

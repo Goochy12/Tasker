@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,6 +33,7 @@ import au.com.liamgooch.tasker.Activities.AddTaskActivity;
 import au.com.liamgooch.tasker.Activities.Login;
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.Fragments.adapters.TaskRecyclerAdapter;
+import au.com.liamgooch.tasker.data.Account_Type_Enum;
 import au.com.liamgooch.tasker.data.TaskChanger;
 import au.com.liamgooch.tasker.data.TaskItem;
 import au.com.liamgooch.tasker.data.TaskSync;
@@ -49,7 +51,7 @@ public class TasksFragment extends Fragment {
     private FirebaseDatabase database;
     private DatabaseReference tasksReference;
     private String uid;
-    private String accountType;
+    private Account_Type_Enum account_type;
     private TextView textView;
 
     private FirebaseAuth mAuth;
@@ -60,10 +62,12 @@ public class TasksFragment extends Fragment {
 
     private TaskSync taskSync;
 
+    private ProgressBar allTasksProgressBar;
+
     @SuppressLint("ValidFragment")
-    public TasksFragment(List<TaskItem> userTasks, List<TaskItem> projectTasks, String uid, String accountType){
+    public TasksFragment(List<TaskItem> userTasks, List<TaskItem> projectTasks, String uid, Account_Type_Enum account_type){
         this.uid = uid;
-        this.accountType = accountType;
+        this.account_type = account_type;
     }
 
     @Override
@@ -77,6 +81,11 @@ public class TasksFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        allTasksProgressBar = (ProgressBar) view.findViewById(R.id.allTasksProgressBar);
+//        allTasksProgressBar.setVisibility(View.VISIBLE);
+//        allTasksProgressBar.animate();
+
         mAuth = FirebaseAuth.getInstance();
 
         FloatingActionButton addTaskButton = (FloatingActionButton) view.findViewById(R.id.add_task_fab);
@@ -84,7 +93,7 @@ public class TasksFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent launchAddTask = new Intent(view.getContext(), AddTaskActivity.class);
-                launchAddTask.putExtra(ACCOUNT_TYPE,accountType);
+                launchAddTask.putExtra(ACCOUNT_TYPE,account_type);
                 launchAddTask.putExtra(ACCOUNT_UID,uid);
                 startActivity(launchAddTask);
             }
@@ -101,7 +110,9 @@ public class TasksFragment extends Fragment {
         taskRecyclerLayoutManager = new LinearLayoutManager(view.getContext(),RecyclerView.VERTICAL,false);
         taskRecycler.setLayoutManager(taskRecyclerLayoutManager);
 
-        taskRecyclerAdapter = new TaskRecyclerAdapter(view.getContext(),uid);
+        TextView noTasksTV = getActivity().findViewById(R.id.noUserTasksTextView);
+        noTasksTV.setVisibility(View.GONE);
+        taskRecyclerAdapter = new TaskRecyclerAdapter(view.getContext(),uid, allTasksProgressBar,noTasksTV);
         taskRecycler.setAdapter(taskRecyclerAdapter);
 
         taskChanger = new TaskChanger(uid);
@@ -143,4 +154,5 @@ public class TasksFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

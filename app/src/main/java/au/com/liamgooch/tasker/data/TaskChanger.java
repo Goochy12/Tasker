@@ -1,5 +1,7 @@
 package au.com.liamgooch.tasker.data;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -9,6 +11,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import static au.com.liamgooch.tasker.data.String_Values.ACCOUNTS;
 import static au.com.liamgooch.tasker.data.String_Values.TAG;
@@ -59,18 +64,15 @@ public class TaskChanger {
         databaseReference.child(TASK_TIME_DATE_STRING).setValue(taskItem.getTimeDateString());
     }
 
-    public TaskItem getUserTask(String id){
+    public void getUserTask(String id, FirebaseCallbacks firebaseCallbacks){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(ACCOUNTS)
                 .child(uid).child(USER_TASKS).child(id);
 
         final TaskItem[] taskItem = new TaskItem[1];
-        Log.i(TAG, "getUserTask after list create: " + uid);
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                Log.i(TAG, "onDataChange: Getting single data");
 
                 String name = (String) dataSnapshot.child(TASK_NAME).getValue();
                 String desc = (String) dataSnapshot.child(TASK_DESC).getValue();
@@ -92,6 +94,8 @@ public class TaskChanger {
                 taskItem[0] = new TaskItem(id,name,desc,startDate,startTime,endDate,endTime,project,group,groupMembers,
                         taskChecked,reminder,timeDateString);
 
+                firebaseCallbacks.returnTask(taskItem[0]);
+
             }
 
             @Override
@@ -99,9 +103,6 @@ public class TaskChanger {
                 Log.i(TAG, databaseError.getMessage());
             }
         });
-
-
-        return taskItem[0];
     }
 
     public void updateUserTask(TaskItem taskItem){

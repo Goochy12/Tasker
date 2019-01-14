@@ -24,19 +24,28 @@ import au.com.liamgooch.tasker.data.TaskSync;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.VISIBLE;
+import static au.com.liamgooch.tasker.data.String_Values.ACCOUNTS;
 import static au.com.liamgooch.tasker.data.String_Values.ACCOUNT_TYPE;
 import static au.com.liamgooch.tasker.data.String_Values.ACCOUNT_UID;
 import static au.com.liamgooch.tasker.data.String_Values.ADMIN;
+import static au.com.liamgooch.tasker.data.String_Values.EMAIL;
 import static au.com.liamgooch.tasker.data.String_Values.TAG;
+import static au.com.liamgooch.tasker.data.String_Values.TYPE;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -45,7 +54,6 @@ public class Dashboard extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
-    private String account_type;
     private String uid;
 
     //bottom nav
@@ -69,9 +77,11 @@ public class Dashboard extends AppCompatActivity {
     private List<TaskItem> user_tasks;
     private List<TaskItem> project_tasks;
 
-    private Account_Type_Enum account_type_enum;
+    private Account_Type_Enum account_type;
 
     private SharedPreferences sharedPreferences;
+
+    private ProgressBar dashBoardProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +91,10 @@ public class Dashboard extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        dashBoardProgressBar = (ProgressBar) findViewById(R.id.dashBoardActivityProgressBar);
+        dashBoardProgressBar.setVisibility(VISIBLE);
+        dashBoardProgressBar.animate();
 
         //bottom nav
         bottomNavigation = (BottomNavigationView) findViewById(R.id.dash_bottom_nav_activityRef);
@@ -92,7 +106,6 @@ public class Dashboard extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         Intent loginIntent = getIntent();
-        account_type = loginIntent.getStringExtra(ACCOUNT_TYPE);
         uid = loginIntent.getStringExtra(ACCOUNT_UID);
 
 //        if(account_type.isEmpty()){
@@ -101,29 +114,56 @@ public class Dashboard extends AppCompatActivity {
 //            finish();
 //        }
 
-        try {
-            if (account_type.equals(ADMIN)){
-                account_type_enum = Account_Type_Enum.ADMIN;
-                setAdminLayout();
-            }else {
-                setUserLayout();
-                account_type_enum = Account_Type_Enum.USER;
-            }
-        }catch (NullPointerException e){
-            Log.i(TAG, "onCreate: error");
-            Intent error = new Intent(this,Login.class);
-            startActivity(error);
-            finish();
-        }
-
         //get the items
         tasksItem = bottomNavigation.getMenu().getItem(0);
         projectsItem = bottomNavigation.getMenu().getItem(1);
         groupsItem = bottomNavigation.getMenu().getItem(2);
 
+        getAccountType();
 
+    }
 
-        tasksFrag = new TasksFragment(user_tasks,project_tasks,uid,account_type);
+    public void getAccountType(){
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(ACCOUNTS).child(uid);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String acc = dataSnapshot.child(TYPE).getValue(String.class);
+
+                if (acc.equals("admin")){
+                    account_type = Account_Type_Enum.ADMIN;
+                }else {
+                    account_type = Account_Type_Enum.USER;
+                }
+
+                loadViews();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+//        try {
+//            if (account_type.equals(ADMIN)){
+//                account_type_enum = Account_Type_Enum.ADMIN;
+//                setAdminLayout();
+//            }else {
+//                setUserLayout();
+//                account_type_enum = Account_Type_Enum.USER;
+//            }
+//        }catch (NullPointerException e){
+//            Log.i(TAG, "onCreate: error");
+//            Intent error = new Intent(this,Login.class);
+//            startActivity(error);
+//            finish();
+//        }
+    }
+
+    private void loadViews(){
+        tasksFrag = new TasksFragment(user_tasks,project_tasks,uid, account_type);
         projectsFrag = new ProjectsFragment();
         groupsFrag = new GroupsFragment();
 
@@ -133,6 +173,8 @@ public class Dashboard extends AppCompatActivity {
         vpPager.setAdapter(adapterViewPager);
         vpPager.setOffscreenPageLimit(3);
         vpPager.addOnPageChangeListener(mPageChangeListener);
+
+        dashBoardProgressBar.setVisibility(View.GONE);
 
         TaskSync taskSync = new TaskSync(tasksFrag,projectsFrag,groupsFrag,uid,this);
 
@@ -155,14 +197,6 @@ public class Dashboard extends AppCompatActivity {
 //        }
 
         taskSync.syncTasks();
-    }
-
-    public void setAdminLayout(){
-
-    }
-
-    public void setUserLayout(){
-
     }
 
 //    @Override
@@ -284,6 +318,7 @@ public class Dashboard extends AppCompatActivity {
         }
     };
 
+//TODO : check this over and redesign callback
 
     public void setUser_tasks(List<TaskItem> user_tasks) {
         this.user_tasks = user_tasks;

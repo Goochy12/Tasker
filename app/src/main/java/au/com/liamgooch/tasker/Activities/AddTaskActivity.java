@@ -24,6 +24,7 @@ import android.widget.TimePicker;
 
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.TaskViewModel;
+import au.com.liamgooch.tasker.data.Account_Type_Enum;
 import au.com.liamgooch.tasker.data.TaskChanger;
 import au.com.liamgooch.tasker.data.TaskItem;
 
@@ -47,7 +48,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private int taskTimeMonth;
     private int taskTimeYear;
 
-    private String accountType;
+    private Account_Type_Enum account_type;
     private String uid;
     private TaskChanger taskChanger;
 
@@ -60,7 +61,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         setContentView(R.layout.activity_add_task);
 
         Intent intent = getIntent();
-        accountType = intent.getStringExtra(ACCOUNT_TYPE);
+        account_type = (Account_Type_Enum) intent.getSerializableExtra(ACCOUNT_TYPE);
         uid = intent.getStringExtra(ACCOUNT_UID);
         taskChanger = new TaskChanger(uid);
 
@@ -94,11 +95,12 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         });
 
         Button addMemberButton = (Button) findViewById(R.id.addGroupMembersButton);
-        if (accountType.equals(ADMIN)){
-            addMemberButton.setEnabled(true);
-        }else{
-            addMemberButton.setEnabled(false);
-        }
+        addMemberButton.setEnabled(false);
+//        if (accountType.equals(ADMIN)){
+//            addMemberButton.setEnabled(true);
+//        }else{
+//            addMemberButton.setEnabled(false);
+//        }
 
         addMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
