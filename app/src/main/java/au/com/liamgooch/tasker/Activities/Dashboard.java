@@ -100,7 +100,6 @@ public class Dashboard extends AppCompatActivity {
 
         //bottom nav
         bottomNavigation = (BottomNavigationView) findViewById(R.id.dash_bottom_nav_activityRef);
-        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //set a null tint on the selected item
         bottomNavigation.setItemIconTintList(null);
@@ -115,11 +114,6 @@ public class Dashboard extends AppCompatActivity {
 //            startActivity(error);
 //            finish();
 //        }
-
-        //get the items
-        tasksItem = bottomNavigation.getMenu().getItem(0);
-        projectsItem = bottomNavigation.getMenu().getItem(1);
-        groupsItem = bottomNavigation.getMenu().getItem(2);
 
         getAccountType();
 
@@ -165,6 +159,12 @@ public class Dashboard extends AppCompatActivity {
     }
 
     private void loadViews(){
+        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        //get the items
+        tasksItem = bottomNavigation.getMenu().getItem(0);
+        projectsItem = bottomNavigation.getMenu().getItem(1);
+        groupsItem = bottomNavigation.getMenu().getItem(2);
+
         tasksFrag = new TasksFragment(user_tasks,project_tasks,uid, account_type);
         projectsFrag = new ProjectsFragment();
         groupsFrag = new GroupsFragment();
