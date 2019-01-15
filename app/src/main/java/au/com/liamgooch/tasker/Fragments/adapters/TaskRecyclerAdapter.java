@@ -22,6 +22,7 @@ import java.util.List;
 import au.com.liamgooch.tasker.Activities.EditTaskActivity;
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.TaskViewModel;
+import au.com.liamgooch.tasker.data.Account_Type_Enum;
 import au.com.liamgooch.tasker.data.TaskChanger;
 import au.com.liamgooch.tasker.data.TaskItem;
 
@@ -38,15 +39,17 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
     private Context context;
 
     private String uid;
+    private Account_Type_Enum account_type;
     private ProgressBar allTasksProgressBar;
 
     private TextView noTasksTextView;
 
     //constructor
-    public TaskRecyclerAdapter(Context context, String uid, ProgressBar allTasksProgressBar, TextView noTasksTextView){
+    public TaskRecyclerAdapter(Context context, String uid, Account_Type_Enum account_type, ProgressBar allTasksProgressBar, TextView noTasksTextView){
         //layoutInflater = LayoutInflater.from(context);
         this.context = context;
         this.uid = uid;
+        this.account_type = account_type;
         this.allTasksProgressBar = allTasksProgressBar;
         this.noTasksTextView = noTasksTextView;
     }
@@ -128,9 +131,10 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
     }
 
     public void setTasks(List<TaskItem> taskItems){
-        this.taskItems = taskItems;
+        this.taskItems.clear();
+        this.taskItems.addAll(taskItems);
         allTasksProgressBar.setVisibility(View.GONE);
-        if (taskItems.isEmpty()){
+        if (this.taskItems.isEmpty()){
             noTasksTextView.setVisibility(View.VISIBLE);
         }else {
             noTasksTextView.setVisibility(View.GONE);

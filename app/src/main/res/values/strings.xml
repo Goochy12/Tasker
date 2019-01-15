@@ -37,5 +37,6 @@
     <string name="task_complete">Complete!</string>
     <string name="apply_button_string">Apply</string>
     <string name="edit_task_heading_string">Edit Task</string>
+    <string name="no_projects_string">You have no projects!</string>
 
 </resources>

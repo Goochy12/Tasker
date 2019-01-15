@@ -83,8 +83,8 @@ public class TasksFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         allTasksProgressBar = (ProgressBar) view.findViewById(R.id.allTasksProgressBar);
-//        allTasksProgressBar.setVisibility(View.VISIBLE);
-//        allTasksProgressBar.animate();
+        allTasksProgressBar.setVisibility(View.VISIBLE);
+        allTasksProgressBar.animate();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -112,7 +112,7 @@ public class TasksFragment extends Fragment {
 
         TextView noTasksTV = getActivity().findViewById(R.id.noUserTasksTextView);
         noTasksTV.setVisibility(View.GONE);
-        taskRecyclerAdapter = new TaskRecyclerAdapter(view.getContext(),uid, allTasksProgressBar,noTasksTV);
+        taskRecyclerAdapter = new TaskRecyclerAdapter(view.getContext(),uid, account_type, allTasksProgressBar,noTasksTV);
         taskRecycler.setAdapter(taskRecyclerAdapter);
 
         taskChanger = new TaskChanger(uid);

@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import static au.com.liamgooch.tasker.data.String_Values.ACCOUNTS;
 import static au.com.liamgooch.tasker.data.String_Values.TAG;
+import static au.com.liamgooch.tasker.data.String_Values.TASKS_DB;
 import static au.com.liamgooch.tasker.data.String_Values.USER_TASKS;
 import static au.com.liamgooch.tasker.data.String_Values.TASK_CHECKED;
 import static au.com.liamgooch.tasker.data.String_Values.TASK_DESC;
@@ -66,7 +67,7 @@ public class TaskChanger {
 
     public void getUserTask(String id, FirebaseCallbacks firebaseCallbacks){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(ACCOUNTS)
-                .child(uid).child(USER_TASKS).child(id);
+                .child(uid).child(TASKS_DB).child(USER_TASKS).child(id);
 
         final TaskItem[] taskItem = new TaskItem[1];
 

@@ -14,12 +14,12 @@ public class String_Values {
     public static final String EMAIL = "email";
     public static final String NAME = "name";
     public static final String VERIFIED = "verified";
-    public static final String TASKS_DB = "tasks_db";
     public static final String VERSION = "version";
     public static final String PASSWORD = "password";
     public static final String LOGIN = "login";
 
     //task strings
+    public static final String TASKS_DB = "tasks_db";
     public static final String USER_TASKS = "user_tasks";
     public static final String PROJECTS = "projects";
     public static final String PROJECT_TASKS = "project_tasks";

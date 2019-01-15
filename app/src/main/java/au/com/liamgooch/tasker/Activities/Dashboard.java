@@ -18,6 +18,7 @@ import au.com.liamgooch.tasker.Fragments.TasksFragment;
 import au.com.liamgooch.tasker.Fragments.adapters.DashboardViewPagerAdapter;
 import au.com.liamgooch.tasker.R;
 import au.com.liamgooch.tasker.data.Account_Type_Enum;
+import au.com.liamgooch.tasker.data.ProjectItem;
 import au.com.liamgooch.tasker.data.TaskItem;
 import au.com.liamgooch.tasker.data.TaskSync;
 
@@ -74,8 +75,9 @@ public class Dashboard extends AppCompatActivity {
 
     private ArrayList<ArrayList<String>> raw_user_tasks = new ArrayList<>();
     private ArrayList<ArrayList<String>> raw_project_tasks = new ArrayList<>();
-    private List<TaskItem> user_tasks;
-    private List<TaskItem> project_tasks;
+    private ArrayList<TaskItem> user_tasks;
+    private ArrayList<ProjectItem> projects;
+    private ArrayList<TaskItem> project_tasks;
 
     private Account_Type_Enum account_type;
 
@@ -320,7 +322,7 @@ public class Dashboard extends AppCompatActivity {
 
 //TODO : check this over and redesign callback
 
-    public void setUser_tasks(List<TaskItem> user_tasks) {
+    public void setUser_tasks(ArrayList<TaskItem> user_tasks) {
         this.user_tasks = user_tasks;
         //set task frag - notify change
         while (tasksFrag == null){
@@ -333,12 +335,17 @@ public class Dashboard extends AppCompatActivity {
 //        tasksFrag.taskRecyclerAdapter.setTasks();
     }
 
-    public void setProject_tasks(List<TaskItem> project_tasks) {
+    public void setProjects(ArrayList<ProjectItem> projectItems){
+        this.projects = projectItems;
+        projectsFrag.projectsRecyclerAdapter.setTasks(projects);
+    }
+
+    public void setProject_tasks(ArrayList<TaskItem> project_tasks) {
         this.project_tasks = project_tasks;
     }
 
     public void compileTasks(){
-        List<TaskItem> taskItems = new ArrayList<>();
+        ArrayList<TaskItem> taskItems = new ArrayList<>();
         if (user_tasks != null){
             taskItems.addAll(user_tasks);
         }
@@ -347,4 +354,6 @@ public class Dashboard extends AppCompatActivity {
         }
         tasksFrag.taskRecyclerAdapter.setTasks(taskItems);
     }
+
+
 }

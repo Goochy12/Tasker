@@ -23,6 +23,7 @@ import static au.com.liamgooch.tasker.data.String_Values.GROUP_MEMBERS;
 import static au.com.liamgooch.tasker.data.String_Values.PROJECTS;
 import static au.com.liamgooch.tasker.data.String_Values.PROJECT_TASKS;
 import static au.com.liamgooch.tasker.data.String_Values.TAG;
+import static au.com.liamgooch.tasker.data.String_Values.TASKS_DB;
 import static au.com.liamgooch.tasker.data.String_Values.USER_TASKS;
 
 public class TaskSync {
@@ -43,6 +44,7 @@ public class TaskSync {
     private Dashboard dashboard;
 
     private ArrayList<ArrayList<String>> raw_user_tasks = new ArrayList<>();
+    private ArrayList<ArrayList<String>> raw_projects = new ArrayList<>();
     private ArrayList<ArrayList<String>> raw_project_tasks = new ArrayList<>();
 
     public TaskSync(TasksFragment tasksFragment, ProjectsFragment projectsFragment, GroupsFragment groupsFragment,
@@ -54,7 +56,7 @@ public class TaskSync {
         this.dashboard = dashboard;
 
         database = FirebaseDatabase.getInstance();
-        DatabaseReference dbR = database.getReference(ACCOUNTS).child(uid);
+        DatabaseReference dbR = database.getReference(ACCOUNTS).child(uid).child(TASKS_DB);
         try{
             tasksReference = dbR.child(USER_TASKS);
         }catch (NullPointerException ignore){
@@ -147,7 +149,7 @@ public class TaskSync {
                 }
             }
 
-            List<TaskItem> taskItems = convertToTasks(raw_user_tasks);
+            ArrayList<TaskItem> taskItems = convertToTasks(raw_user_tasks);
             dashboard.setUser_tasks(taskItems);
 
         }
@@ -161,7 +163,53 @@ public class TaskSync {
     ValueEventListener projects_value_event_listener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
+            raw_projects.clear();
 
+            for (DataSnapshot eachTask : dataSnapshot.getChildren()){
+                ArrayList<String> list = new ArrayList<>();
+                //get Task information
+                try {
+                    String id = (String) eachTask.child(String_Values.USER_TASK_ID).getValue();
+                    String name = (String) eachTask.child(String_Values.TASK_NAME).getValue();
+                    String desc = (String) eachTask.child(String_Values.TASK_DESC).getValue();
+
+                    String startDate = (String) eachTask.child(String_Values.TASK_START_DATE).getValue();
+                    String startTime = (String) eachTask.child(String_Values.TASK_START_TIME).getValue();
+                    String endDate = (String) eachTask.child(String_Values.TASK_END_DATE).getValue();
+                    String endTime = (String) eachTask.child(String_Values.TASK_END_TIME).getValue();
+
+                    String groupMembers = (String) eachTask.child(String_Values.TASK_GROUP_MEMBERS).getValue();
+
+                    String projectChecked = Objects.requireNonNull(eachTask.child(String_Values.TASK_CHECKED).getValue()).toString();
+                    String reminder = Objects.requireNonNull(eachTask.child(String_Values.TASK_REMINDER).getValue()).toString();
+
+                    String timeDateString = (String) eachTask.child(String_Values.TASK_TIME_DATE_STRING).getValue();
+
+                    list.add(id);
+                    list.add(name);
+                    list.add(desc);
+
+                    list.add(startDate);
+                    list.add(startTime);
+                    list.add(endDate);
+                    list.add(endTime);
+
+                    list.add(groupMembers);
+
+                    list.add(projectChecked);
+                    list.add(reminder);
+
+                    list.add(timeDateString);
+
+                    raw_projects.add(list);
+
+                }catch (NullPointerException ignore){
+
+                }
+            }
+
+            ArrayList<ProjectItem> projectItems = convertToProjects(raw_projects);
+            dashboard.setProjects(projectItems);
         }
 
         @Override
@@ -206,8 +254,8 @@ public class TaskSync {
         }
     };
 
-    public List<TaskItem> convertToTasks(ArrayList<ArrayList<String>> tasks){
-        List<TaskItem> itemList = new ArrayList<>();
+    public ArrayList<TaskItem> convertToTasks(ArrayList<ArrayList<String>> tasks){
+        ArrayList<TaskItem> itemList = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i ++){
             String id = tasks.get(i).get(0);
             String name = tasks.get(i).get(1);
@@ -232,6 +280,12 @@ public class TaskSync {
         }
 
         return itemList;
+    }
+
+    private ArrayList<ProjectItem> convertToProjects(ArrayList<ArrayList<String>> raw_projects) {
+        ArrayList<ProjectItem> projectItems = new ArrayList<>();
+
+        return projectItems;
     }
 
 }
