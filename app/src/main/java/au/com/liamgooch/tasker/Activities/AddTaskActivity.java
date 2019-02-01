@@ -58,10 +58,16 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_task);
 
         Intent intent = getIntent();
         account_type = (Account_Type_Enum) intent.getSerializableExtra(ACCOUNT_TYPE);
+
+        if(account_type.equals(Account_Type_Enum.ADMIN)){
+            setContentView(R.layout.activity_add_task);
+        }else{
+            setContentView(R.layout.user_addtask_layout);
+        }
+
         uid = intent.getStringExtra(ACCOUNT_UID);
         taskChanger = new TaskChanger(uid);
 
